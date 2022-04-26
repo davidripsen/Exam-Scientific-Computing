@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lastpage}
+\usepackage{float}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[margin=1.1in]{geometry}
+\usepackage{listings} 
+\usepackage{watermark}
+\usepackage{blindtext}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{footnote}
+\usepackage{caption}
+\usepackage{textcomp}
+\makesavenoteenv{table}
+\usepackage[table,xcdraw,svgnames]{xcolor}
+\usepackage[bottom]{footmisc}
+\usepackage{subcaption}
+\usepackage[justification=centering]{caption}
+\usepackage{subfiles}
+\usepackage{mcode}
+\usepackage{enumerate}
+\usepackage{wrapfig}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{bm}
+\usepackage{makecell}
+\renewcommand{\baselinestretch}{1.4}
+\newcommand{\ts}{\textsuperscript}
+\pagestyle{fancy}
+\lhead{Scientific Computing}
+
+\rhead{02443 - Stochastic Simulation}
+
+
+\linespread{1.3} % Line spacing
+
+%\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
+
+\graphicspath{{./Fig/}} % Specifies the directory where pictures are stored
+
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=30mm,
+ right=30mm,
+ top=30mm,
+ bottom=20mm
+ }
+ 
+\begin{document}
+
+%\renewcommand{\headrulewidth}{0.4pt} %header
+
+
+\cfoot{\thepage\ of \pageref{LastPage}}
+%-------------------------------------------------------------------------------
+%	TITLE PAGE
+%-------------------------------------------------------------------------------
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+
+\includegraphics[width=0.15\textwidth]{Logo/DTU-logo.pdf}
+%\quad \quad \quad \quad \quad
+%\includegraphics[width=0.2\textwidth]{KUlogo.png}
+\\[1cm]
+
+
+\textsc{\large 02443 - Stochastic Simulation }\\[0.5cm] % Minor heading such as course title
+
+%\textsc{\large \bfseries Tennis Major Tournament Match Statistics}\\[0.5cm]
+
+\HRule \\[0.8cm]
+{ \huge \bfseries Simulation of Lévy Process
+}\\[0.4cm] % Title of your document
+\HRule \\[1cm]
+
+\begin{minipage}{0.4\textwidth}
+\begin{center} \footnotesize
+\emph{Author:}\\
+David Ipsen (s164522)\\
+\end{center}
+\end{minipage}\\[4cm]
+
+{\large 
+\today %dato 
+}
+\\[0.2cm] % Date, change the \today to a set date if you want to be precise
+\thiswatermark{\centering \put(-180,-720){\includegraphics[scale=0.55]{Logo/DTU-frise-SH-15.pdf}} }
+\end{titlepage}
+
+\newpage
+\tableofcontents
+
+\newpage
+
+%-------------------------------------------------------------------------------
+%	Problem statement
+%-------------------------------------------------------------------------------
+\section{Exercise 1}
+\subsection{The explicit Euler algorithm}
+bla bla
+
+
+\end{document}
