@@ -5,3 +5,5 @@ template.pdf
 # Don't push chances is TeX
 Sections/
 main.tex
+
+scripts/
