@@ -1,0 +1,91 @@
+\section{Test equation for ODEs}
+Considering the test equation
+
+$$
+\dot{x}(t)=\lambda x(t), \quad x(0)=x_{0} \label{eq:test}
+$$
+for $\lambda=-1$ and $x_{0}=1$.
+
+\subsection{Analytical solution}
+It is is function that differentiated gives itself times a constant. Therefore try a guess with:
+$$
+x(t) = \exp(\lambda t)
+$$
+Then
+$$
+x'(t) = \lambda \exp(\lambda t) = \lambda x(t)
+$$
+I.e. the analytical solution is $x(t) = \exp(\lambda t)$.
+
+\subsection{Local and global truncation error}
+In order to calculate the local and global truncation error, the analytical, exact solution to the ODE is required to be known. For that reason, the \textit{test equation} is typically used to \textit{test} the performance of numerical methods. The errors are calculated as follows \cite{JrgensenScientificEquations}:
+\\
+
+\textbf{Global error}
+$$
+e_{k}=x_{k}-x\left(t_{k}\right)
+$$
+where $x_{k}$ is the numerical (descretized) solution and $x\left(t_{k}\right)$ is the exact (continuous) solution. The global error is thus the accumulated error over time. Therefore, it is commonly calculated in the last step.
+\\
+
+\textbf{Local error}
+$$
+l_{k}=x_{k}-x_{k-1}\left(t_{k}\right)
+$$
+where $x_{k}$ is the numerical solution and $x_{k-1}\left(t_{k}\right)$ is the analytical one-step solution starting from $x\left(t_{k-1}\right)=x_{k-1}$. Therefore, it is commonly calculated in the first step.
+\\
+
+Now, it is of interest to calculate the error of the following three methods
+\\
+
+\textbf{Explicit Euler \cite{JrgensenScientificEquationsb}}
+\begin{equation}
+    x_{k+1}=x_{k}+\Delta t f\left(t_{k}, x_{k}\right)
+\end{equation}
+
+Which intuitively takes a step forward with the current $\dot{x}(t_k)$.
+\\
+\textbf{Implicit Euler \cite{JrgensenScientificEquationsb}}
+\begin{equation}
+    x_{k+1}=x_{k}+\Delta t f\left(t_{k+1}, x_{k+1}\right)
+\end{equation}
+
+Which intuitively takes a step backward with the following $\dot{x}(t_{k+1})$ as estimated by Newton's Method [ibid.].
+\\
+\textbf{Classical Runge-Kutta \cite{JrgensenRunge-KuttaEquations}}
+$$
+\begin{aligned}
+T_{1} &=t_{n} & X_{1} &=x_{n} \\
+T_{2} &=t_{n}+\frac{1}{2} h & X_{2} &=x_{n}+h \frac{1}{2} f\left(T_{1}, X_{1}\right) \\
+T_{3} &=t_{n}+\frac{1}{2} h & X_{3} &=x_{n}+h \frac{1}{2} f\left(T_{2}, X_{2}\right) \\
+T_{4} &=t_{n}+h & X_{4} &=x_{n}+h f\left(T_{3}, X_{3}\right) \\
+t_{n+1}=t_{n}+h & & \\
+x_{n+1}=x_{n}+h &\left(\frac{1}{6} f\left(T_{1}, X_{1}\right)+\frac{1}{3} f\left(T_{2}, X_{2}\right)+\frac{1}{3} f\left(T_{3}, X_{3}\right)+\frac{1}{6} f\left(T_{4}, X_{4}\right)\right)
+\end{aligned}
+$$
+
+Which intuitively takes a full step forward by taking 4 well-timed middle steps and calculating a weighted-average of those.
+\\
+
+The results are illustrated in the following two sections.
+
+
+
+
+
+
+\subsection{Local error}
+From the following plot (\ref{fig:1_4}) it is clear that the Classical Runge-Kutta method is much more precise (on the test equation).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{plots/1_4.pdf}
+    \caption{Caption}
+    \label{fig:1_4}
+\end{figure}
+
+
+
+\subsection{Global error}
+
+\subsection{Stability}
