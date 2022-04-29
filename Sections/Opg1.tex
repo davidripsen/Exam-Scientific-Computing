@@ -75,17 +75,36 @@ The results are illustrated in the following two sections.
 
 
 \subsection{Local error}
-From the following plot (\ref{fig:1_4}) it is clear that the Classical Runge-Kutta method is much more precise (on the test equation).
+From Figure \ref{fig:1_4} it is clear that the Classical Runge-Kutta method is much more precise (on the test equation). In terms of order, a method is said to be of order p if $l_{k}=\mathcal{O}\left(h_{k}^{p+1}\right)$ \cite{JrgensenScientificEquationsc}. By calculating the slopes of the linear line in the log-log plot we obtain:
+$$
+a_{Exp} = 2.00, \quad a_{Imp} = 1.98, \quad a_{RK} = 5.00
+$$
+
+Corresponding to orders
+$$
+p_{Exp} = 1, \quad p_{Imp} = 1, \quad p_{RK} = 4
+$$
+
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{plots/1_4.pdf}
-    \caption{Caption}
+    \caption{Local error vs step size for three numerical ODE solvers.}
     \label{fig:1_4}
 \end{figure}
 
 
 
 \subsection{Global error}
+Similarly, for the global error of the three methods as seen in Figure \ref{1_5}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{plots/1_5.pdf}
+    \caption{Global error vs step size for three numerical ODE solvers.}
+    \label{fig:1_5}
+\end{figure}
+
+Again a close to identical performance is seen for the two 1st order methods.
 
 \subsection{Stability}
