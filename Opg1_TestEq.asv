@@ -1,7 +1,8 @@
 %%% 02686 Scientific Computing for Differential Equations - Exam
 %%% by David Ribberholt Ipsen (s164522)
 %%% Exercise 1 - Test equation for ODEs
-plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computing/Exam/plots/';
+clear clc
+plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computing/Exam-Scientific-Computing/plots/';
 
 % x'(t) = lambda*x(t), where lambda = -1, x(0) = x0 = 1
 
@@ -57,7 +58,7 @@ loglog(hs, abs(E(:,3)), 'Marker','*', 'DisplayName','Classical RK');
 polyfit(log(hs), log(abs(E(:,3))), 1)
 
 hold off;
-legend()
+legend('Location','northwest')
 shg % Show current figure
 exportgraphics(gcf, append(plotpath, '1_4.pdf'))
 
@@ -111,7 +112,9 @@ exportgraphics(gcf, append(plotpath, '1_5.pdf'))
 
 %% 1.6 Explain stability of a method
 % bla bla
-clear; close all
+clear; close all;
+plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computing/Exam-Scientific-Computing/plots/';
+
 method = 'RK44';
 alpha = -5:0.01:5;
 beta =  -5:0.01:5;
@@ -124,6 +127,9 @@ nreal = length(alpha);
 nimag = length(beta);
 I = eye(size(A));
 e = ones(size(A,1),1);
+absR = NaN(nimag, nreal);
+absR_exp = NaN(nimag, nreal);
+absR_imp = NaN(nimag, nreal);
 
 for kreal = 1:nreal
    for kimag = 1:nimag
@@ -142,7 +148,7 @@ end
 % Classical Runge-Kutta
 figure()
 fs = 14;
-    imagesc(alpha,beta,absR,[0 1.5]);
+    imagesc(alpha,beta,absR,[0 1]);
     grid on
     colorbar
     axis image
@@ -150,11 +156,12 @@ fs = 14;
     xlabel('real','fontsize',fs);
     ylabel('imag','fontsize',fs);
     title('|R(z)| - Classical Runge-Kutta','fontsize',fs)
-disp('Feeedt')
+exportgraphics(gcf, append(plotpath, '1_6a.pdf'))
+
 % Explicit Euler
 figure()
 fs = 14;
-    imagesc(alpha,beta,absR_exp,[0 1.5]);
+    imagesc(alpha,beta,absR_exp,[0 1]);
     grid on
     colorbar
     axis image
@@ -162,12 +169,12 @@ fs = 14;
     xlabel('real','fontsize',fs);
     ylabel('imag','fontsize',fs);
     title('|R(z)| - Explicit Euler','fontsize',fs)
-disp('Feeedt')
+exportgraphics(gcf, append(plotpath, '1_6b.pdf'))
 
 % Implicit Euler
 figure()
 fs = 14;
-    imagesc(alpha,beta,absR_imp,[0 1.5]);
+    imagesc(alpha,beta,absR_imp,[0 1]);
     grid on
     colorbar
     axis image
@@ -175,13 +182,14 @@ fs = 14;
     xlabel('real','fontsize',fs);
     ylabel('imag','fontsize',fs);
     title('|R(z)| - Implicit Euler','fontsize',fs)
-disp('Feeedt')
+exportgraphics(gcf, append(plotpath, '1_6c.pdf'))
 
 % Comments:
 % A-stable: For all z where R(z) < 1, then Re(z) < 0
 % the case for: 
 
-
+% L-stable: A-stable + For z -> -inf, R(z) = 0
+% the case for:
 
 
 

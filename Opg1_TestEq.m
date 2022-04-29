@@ -58,7 +58,7 @@ loglog(hs, abs(E(:,3)), 'Marker','*', 'DisplayName','Classical RK');
 polyfit(log(hs), log(abs(E(:,3))), 1)
 
 hold off;
-legend()
+legend('Location','northwest')
 shg % Show current figure
 exportgraphics(gcf, append(plotpath, '1_4.pdf'))
 
