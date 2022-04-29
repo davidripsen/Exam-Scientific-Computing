@@ -1,3 +1,7 @@
 .DS_Store
 Exam2022.pdf
 template.pdf
+
+# Don't push chances is TeX
+Sections/
+main.tex

@@ -44,6 +44,7 @@ for i=1:length(Ns)
 end
 
 loglog(hs, abs(E(:,1)), 'Marker','*', 'DisplayName', 'Explicit Euler');
+ylim([1e-16 1e-00])
 grid on
 xlabel('h')
 ylabel('Local error')
@@ -86,6 +87,7 @@ for i=1:length(Ns)
 end
 
 loglog(hs, abs(E(:,1)), 'Marker','*', 'DisplayName', 'Explicit Euler');
+ylim([1e-16 1e-00])
 grid on
 xlabel('h')
 ylabel('Global error')

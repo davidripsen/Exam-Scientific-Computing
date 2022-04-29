@@ -43,7 +43,7 @@ for i=1:length(Ns)
     E(i,3) = abs(X_cRK(2) - x0*exp(hs(i)*lambda));
 end
 
-loglog(hs, abs(E(:,1)), 'Marker','*', 'DisplayName', 'Explicit Euler');
+loglog(hs, abs(E(:,1)), 'Marker','*', 'DisplayName', 'Explicit Euler', ylim=[]);
 grid on
 xlabel('h')
 ylabel('Local error')
@@ -68,7 +68,7 @@ x0 = 1;
 lambda = -1;
 T0 = 0;
 Tf = 1;
-Ns = round(linspace(10^1, 10^3, 100));
+Ns = round(linspace(10^1, 10^2.6, 100));
 hs = (Tf-T0) ./ Ns;
 E = zeros(length(hs),3);
 tspan = [T0, Tf];
@@ -100,7 +100,7 @@ loglog(hs, abs(E(:,3)), 'Marker','*', 'DisplayName','Classical RK');
 polyfit(log(hs), log(abs(E(:,3))), 1)
 
 hold off;
-legend()
+legend('Location','northwest')
 shg % Show graph window
 exportgraphics(gcf, append(plotpath, '1_5.pdf'))
 
