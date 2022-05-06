@@ -18,8 +18,8 @@ $$
 I.e. the analytical solution is $x(t) = \exp(\lambda t)$.
 
 \subsection{Local and global truncation error}
-In order to calculate the local and global truncation error, the analytical, exact solution to the ODE is required to be known. For that reason, the \textit{test equation} is typically used to \textit{test} the performance of numerical methods. The errors are calculated as follows \cite{JrgensenScientificEquations}:
-\\
+In order to calculate the local and global truncation error, the exact solution to the ODE is required to be known. For that reason, the \textit{test equation} is typically used to \textit{test} the performance of numerical methods. The errors are calculated as follows \cite{JrgensenScientificEquations}:
+[MANGLER LIGE ET READ THROUGH LIGESOM DEN NÆSTE]
 
 \textbf{Global error}
 $$
@@ -34,6 +34,8 @@ l_{k}=x_{k}-x_{k-1}\left(t_{k}\right)
 $$
 where $x_{k}$ is the numerical solution and $x_{k-1}\left(t_{k}\right)$ is the analytical one-step solution starting from $x\left(t_{k-1}\right)=x_{k-1}$. Therefore, it is commonly calculated in the first step.
 \\
+
+\subsection{Computation of local and global truncation erros}
 
 Now, it is of interest to calculate the error of the following three methods
 \\
@@ -75,7 +77,9 @@ The results are illustrated in the following two sections.
 
 
 \subsection{Local error}
-From Figure \ref{fig:1_4} it is clear that the Classical Runge-Kutta method is much more precise (on the test equation). In terms of order, a method is said to be of order p if $l_{k}=\mathcal{O}\left(h_{k}^{p+1}\right)$ \cite{JrgensenScientificEquationsc}. By calculating the slopes of the linear line in the log-log plot we obtain:
+From Figure \ref{fig:1_4} it is clear that the Classical Runge-Kutta method is much more precise (on the test equation). In terms of order, a method is said to be of order p if $l_{k}=\mathcal{O}\left(h_{k}^{p+1}\right)$ \cite{JrgensenScientificEquationsc}. The \textit{order} is referring to the number of terms in the Taylor-expansion around the solution.
+
+By calculating the slopes of the linear line in the log-log plot we obtain:
 $$
 a_{Exp} = 2.00, \quad a_{Imp} = 1.98, \quad a_{RK} = 5.00
 $$
@@ -96,7 +100,7 @@ $$
 
 
 \subsection{Global error}
-Similarly, for the global error of the three methods as seen in Figure \ref{1_5}.
+Similarly, for the global error of the three methods as seen in Figure \ref{fig:1_5}.
 
 \begin{figure}[H]
     \centering
@@ -105,6 +109,37 @@ Similarly, for the global error of the three methods as seen in Figure \ref{1_5}
     \label{fig:1_5}
 \end{figure}
 
-Again a close to identical performance is seen for the two 1st order methods. Note that the 
+Again a close to identical performance is seen for the two 1st order methods. By calculating the slopes it is evident that the global error is proportional to $h_{k}^{p}$, whereas the local error was proportional to $h_{k}^{p+1}$.
 
 \subsection{Stability}
+Stability of a methods refers to the the \textit{transfer function} $R(z)$ in
+
+\begin{equation}
+    x_{k+1}=R(z) x_{k}
+\end{equation}
+
+Where $z = \lambda h$, such that if $R(z) > 1$ the method is unstable because the approximation $x_{k+1} \to \infty$ for $k \to \infty$ which is erroneous for $\lambda < 0$ where the test equation is strictly decreasing.
+
+So for the a method to be A-stable, it is has to fulfil \cite{JrgensenRunge-KuttaControl}:
+\begin{equation}
+    |R(z)|<1 \quad \forall z: \operatorname{Re}(z)<0
+\end{equation}
+
+And for a method to be L-stable it additionally has to fulfil:
+\begin{equation}
+\lim _{z \rightarrow-\infty}|R(z)|=0
+\end{equation}
+
+\subsubsection*{Deriving stability regions}
+
+
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=.3\textwidth]{plots/1_6b.pdf}\hfill
+\includegraphics[width=.3\textwidth]{plots/1_6c.pdf}\hfill
+\includegraphics[width=.3\textwidth]{plots/1_6a.pdf}
+\caption{Stability regions of the three numerical methods.}
+\label{fig:figure3}
+
+\end{figure}
