@@ -14,7 +14,7 @@ AT = solver.AT;         % Transpose of A-matrix in Butcher tableau
 b  = solver.b;          % b-vector in Butcher tableau
 c  = solver.c;          % c-vector in Butcher tableau
 d  = solver.d;
-o  = solver.o;          % Order
+%o  = solver.o;          % Order
 
 % Parameters related to constant step size
 hAT = h*AT;

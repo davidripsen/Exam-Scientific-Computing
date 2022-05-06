@@ -2,7 +2,7 @@
 %%% by David Ribberholt Ipsen (s164522)
 %%% Exercise 1 - Test equation for ODEs
 clear clc
-plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computing/Exam-Scientific-Computing/plots/';
+plotpath = '../plots/';
 
 % x'(t) = lambda*x(t), where lambda = -1, x(0) = x0 = 1
 

@@ -1,6 +1,6 @@
 % Test equation
 function [f  df] = testeq(t, x, lambda)
-    x0 = 1; % Change
+    %x0 = 1; % Change
     f = lambda*x;
     
     df = lambda;
