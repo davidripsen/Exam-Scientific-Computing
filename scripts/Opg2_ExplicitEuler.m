@@ -1,7 +1,8 @@
 %%% 02686 Scientific Computing for Differential Equations - Exam
 %%% by David Ribberholt Ipsen (s164522)
 %%% Exercise 2 - Explicit ODE solver
-plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computing/Exam-Scientific-Computing/plots/';
+clc;
+plotpath = '../plots/';
 
 %% 1. Describe the Explicit Euler
 disp('Bla bla bla')
@@ -30,27 +31,27 @@ options = odeset('RelTol',reltol,'AbsTol',abstol);
 disp('Done')
 
 figure()
-plot(T, X(:,1), DisplayName='Adaptive Explicit Euler') ; hold on
+plot(T, X(:,1), 'DisplayName', 'Adaptive Explicit Euler') ; hold on
 plot(T45, X45(:,1), 'DisplayName','ode45')
-plot(T15, X15(:,1), DisplayName='ode15s')
+plot(T15, X15(:,1), 'DisplayName', 'ode15s')
 title("Van Der Pol Solution (\mu = 3)")
 xlabel('T')
 ylabel('X1')
 legend(); hold off
 
 figure()
-plot(T, X(:,2), DisplayName='Adaptive Explicit Euler') ; hold on
-plot(T45, X45(:,2), DisplayName='ode45')
-plot(T15, X15(:,2), DisplayName='ode15s')
+plot(T, X(:,2), 'DisplayName', 'Adaptive Explicit Euler') ; hold on
+plot(T45, X45(:,2), 'DisplayName', 'ode45')
+plot(T15, X15(:,2), 'DisplayName', 'ode15s')
 title("Van Der Pol Solution (\mu = 3)")
 xlabel('T')
 ylabel('X2')
 legend(); hold off
 
 figure()
-plot(X(:,1), X(:,2), DisplayName='Adaptive Explicit Euler') ; hold on
-plot(X45(:,1), X45(:,2), DisplayName='ode45')
-plot(X15(:,1), X15(:,2), DisplayName='ode15s')
+plot(X(:,1), X(:,2), 'DisplayName', 'Adaptive Explicit Euler') ; hold on
+plot(X45(:,1), X45(:,2), 'DisplayName', 'ode45')
+plot(X15(:,1), X15(:,2), 'DisplayName', 'ode15s')
 title("Van Der Pol Solution (\mu = 3)")
 xlabel('X1')
 ylabel('X2')
@@ -76,27 +77,27 @@ options = odeset('RelTol',reltol,'AbsTol',abstol);
 disp('Done')
 
 figure()
-plot(T, X(:,1), DisplayName='Adaptive Explicit Euler') ; hold on
+plot(T, X(:,1), 'DisplayName', 'Adaptive Explicit Euler') ; hold on
 plot(T45, X45(:,1), 'DisplayName','ode45')
-plot(T15, X15(:,1), DisplayName='ode15s')
+plot(T15, X15(:,1), 'DisplayName', 'ode15s')
 title("Van Der Pol Solution (\mu = 20)")
 xlabel('T')
 ylabel('X1')
 legend(); hold off
 
 figure()
-plot(T, X(:,2), DisplayName='Adaptive Explicit Euler') ; hold on
-plot(T45, X45(:,2), DisplayName='ode45')
-plot(T15, X15(:,2), DisplayName='ode15s')
+plot(T, X(:,2), 'DisplayName', 'Adaptive Explicit Euler') ; hold on
+plot(T45, X45(:,2), 'DisplayName', 'ode45')
+plot(T15, X15(:,2), 'DisplayName', 'ode15s')
 title("Van Der Pol Solution (\mu = 20)")
 xlabel('T')
 ylabel('X2')
 legend(); hold off
 
 figure()
-plot(X(:,1), X(:,2), DisplayName='Adaptive Explicit Euler') ; hold on
-plot(X45(:,1), X45(:,2), DisplayName='ode45')
-plot(X15(:,1), X15(:,2), DisplayName='ode15s')
+plot(X(:,1), X(:,2), 'DisplayName', 'Adaptive Explicit Euler') ; hold on
+plot(X45(:,1), X45(:,2), 'DisplayName', 'ode45')
+plot(X15(:,1), X15(:,2), 'DisplayName', 'ode15s')
 title("Van Der Pol Solution (\mu = 20)")
 xlabel('X1')
 ylabel('X2')
