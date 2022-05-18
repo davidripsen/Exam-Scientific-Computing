@@ -1,12 +1,12 @@
 \section{Explicit ODE solver}
-Considering the more general case of an \textit{Initial Value Problem}
+Considering the more general case of an \textit{Initial Value Problem}.
 $$
 \dot{x}(t)=f(t, x(t), p), \quad x\left(t_{0}\right)=x_{0},
 $$
 where $x \in \mathbb{R}^{n_{x}}$ and $p \in \mathbb{R}^{n_{p}}$
 
 \subsection{Explicit Euler}
-The simplest most numerical solver for that problem would be the Explicit Euler, which descretizes the continuous ODE by taking forward steps with the $\dot{x}(t_k)$ \cite{JrgensenScientificEquations}:
+The simplest numerical solver for that problem would be the Explicit Euler, which descretizes the continuous ODE by taking forward steps with the $\dot{x}(t_k)$ \cite{JrgensenScientificEquations}:
 
 \begin{equation}
     x_{k+1}=x_{k}+\Delta t f\left(t_{k}, x_{k}\right)
