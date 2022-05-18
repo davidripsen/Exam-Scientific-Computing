@@ -143,7 +143,7 @@ for i = 1:length(mus)
     title(sprintf("Van Der Pol Solution (µ = %i)", mu))
     xlabel('X1')
     ylabel('X2')
-    legend('location', 'northwest'); hold off
+    legend('location', 'southoutside'); hold off
 end
 set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '2_4main_02.pdf'))
@@ -185,7 +185,7 @@ for i = 1:length(mus)
     title(sprintf("Van Der Pol Solution (µ = %i)", mu))
     xlabel('X1')
     ylabel('X2')
-    legend('location', 'northwest'); hold off
+    legend('location', 'southoutside'); hold off
 end
 set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '2_4main_04_06.pdf'))
