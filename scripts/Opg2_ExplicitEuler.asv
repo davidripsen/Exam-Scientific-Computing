@@ -109,7 +109,7 @@ disp('Bla bla bla')
 %% 4 FINAL Test on the Van der Pol (and compare with ode45 and ode15)
 
 mus = [3 20];
-abstols = [1e-02];
+abstols = [1e-02 1e-06 1e-09];%[1e-02 1e-06 1e-09];
 reltols = abstols;
 figure('Position', [100, 100, 1200, 600]);
 for i = 1:length(mus)
@@ -127,11 +127,11 @@ for i = 1:length(mus)
 
         % Choose N = length(T), i.e. same number of steps for the fixed
         % step size Euler.
-        [Tfix, Xfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T)-1, x0, mu);
+        %[Tfix, Xfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T), x0, mu);
         
         subplot(1,2,i)
         plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i)',abstol, length(T))) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i)', length(Tfix))); hold on
+        %plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i)', length(Tfix))); hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
@@ -146,47 +146,9 @@ for i = 1:length(mus)
     ylabel('X2')
     legend('location', 'northwest'); hold off
 end
-exportgraphics(gcf, append(plotpath, '2_4main_02.pdf'))
-
-%% e-04 and e-06
-mus = [3 20];
-abstols = [1e-04 1e-06];
-reltols = abstols;
-figure('Position', [100, 100, 1200, 600]);
-for i = 1:length(mus)
-    for j = 1:length(abstols)
-        mu = mus(i);
-        tspan = [0, 32];
-        %mu = 3; % mu = 20
-        x0 = [1.0; 1.0];
-        h0 = 1/100; % Initial step size
-        abstol = abstols(j);
-        reltol = reltols(j);
-
-        [T, X] = ExplicitEulerAdaptiveStep(...
-        @VanderPolFun,tspan,x0,h0,abstol,reltol,mu);
-
-        % Choose N = length(T), i.e. same number of steps for the fixed
-        % step size Euler.
-        [Tfix, Xfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T)-1, x0, mu);
-        
-        subplot(1,2,i)
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i)',abstol, length(T))) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i)', length(Tfix))); hold on
-        %shg % Show graph window
-    end
-        %%% 4b compare with ode45 and ode15
-    
-    options = odeset('RelTol',reltol,'AbsTol',abstol);
-    [T45,X45]=ode45(@VanderPolFun,tspan,x0,options,mu);
-    [T15,X15]=ode15s(@VanderPolFun,tspan,x0,options,mu);
-    plot(X45(:,1), X45(:,2), DisplayName=sprintf('ode45, tol = %.5g (steps = %.i)',abstol, length(T45)))
-    plot(X15(:,1), X15(:,2), DisplayName=sprintf('ode15s, tol = %.5g (steps = %.i)',abstol, length(T15)))
-    title(sprintf("Van Der Pol Solution (µ = %i)", mu))
-    xlabel('X1')
-    ylabel('X2')
-    legend('location', 'northwest'); hold off
-end
-exportgraphics(gcf, append(plotpath, '2_4main_04_06.pdf'))
+exportgraphics(gcf, append(plotpath, '1_4main.pdf'))
 
 
+% CONCLUSION: All three methods are quite similar. No difference can be
+% seen between ode15s and ode45, but the (Adaptive) Explicit Euler is
+% slightly delayed in the peaks compared to the other two.
