@@ -7,7 +7,7 @@ $$
 for $\lambda=-1$ and $x_{0}=1$.
 
 \subsection{Analytical solution}
-It is is function that differentiated gives itself times a constant. Therefore for optaining the analyical solution, try a guess with:
+It is is function that differentiated gives itself times a constant. Therefore for obtaining the analyical solution, try a guess with:
 $$
 x(t) = \exp(\lambda t)
 $$
@@ -18,7 +18,7 @@ $$
 I.e. the analytical solution is $x(t) = \exp(\lambda t)$.
 
 \subsection{Local and global truncation error}
-In order to calculate the local and global truncation error, the exact, analytical solution to the ODE is required to be known. For that reason, the \textit{test equation} is typically used to \textit{test} the performance of numerical methods. The errors are calculated as follows \cite{JrgensenScientificEquations}:
+In order to calculate the local and global truncation error, the exact analytical solution to the ODE is required to be known. For that reason, the \textit{test equation} is typically used to \textit{test} the performance of numerical methods. The errors are calculated as follows \cite{JrgensenScientificEquations}:
 
 \textbf{Global error}
 $$
@@ -44,14 +44,14 @@ Now, it is of interest to calculate the error of the following three numerical m
     x_{k+1}=x_{k}+\Delta t f\left(t_{k}, x_{k}\right)
 \end{equation}
 
-Which intuitively takes a step forward with the current $\dot{x}(t_k)$.
+Which intuitively takes a step forward with the current $\dot{x}(t_k) = f(t_k,x_k)$.
 \\
 \textbf{Implicit Euler \cite{JrgensenScientificEquationsb}}
 \begin{equation}
     x_{k+1}=x_{k}+\Delta t f\left(t_{k+1}, x_{k+1}\right)
 \end{equation}
 
-Which intuitively takes a step backward with the following $\dot{x}(t_{k+1})$ as estimated by Newton's Method [ibid.].
+Which intuitively takes a step backward with the following $\dot{x}(t_{k+1}) =  f(t_{k+1},x_{k+1})$ as estimated by Newton's Method [ibid.].
 \\
 \textbf{Classical Runge-Kutta \cite{JrgensenRunge-KuttaEquations}}
 $$
