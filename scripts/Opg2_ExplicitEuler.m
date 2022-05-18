@@ -3,7 +3,6 @@
 %%% Exercise 2 - Explicit ODE solver
 clc;
 plotpath = '../plots/';
-
 %% 1. Describe the Explicit Euler
 disp('Bla bla bla')
 
@@ -111,7 +110,7 @@ disp('Bla bla bla')
 mus = [3 20];
 abstols = [1e-02];
 reltols = abstols;
-figure('Position', [100, 100, 1200, 600]);
+figure('Position', [100, 100, 1300, 600]);
 for i = 1:length(mus)
     for j = 1:length(abstols)
         mu = mus(i);
@@ -146,13 +145,14 @@ for i = 1:length(mus)
     ylabel('X2')
     legend('location', 'northwest'); hold off
 end
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '2_4main_02.pdf'))
 
 %% e-04 and e-06
 mus = [3 20];
 abstols = [1e-04 1e-06];
 reltols = abstols;
-figure('Position', [100, 100, 1200, 600]);
+figure('Position', [100, 100, 1300, 600]);
 for i = 1:length(mus)
     for j = 1:length(abstols)
         mu = mus(i);
@@ -187,6 +187,7 @@ for i = 1:length(mus)
     ylabel('X2')
     legend('location', 'northwest'); hold off
 end
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '2_4main_04_06.pdf'))
 
 
