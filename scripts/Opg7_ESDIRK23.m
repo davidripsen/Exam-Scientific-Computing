@@ -63,6 +63,8 @@ exportgraphics(gcf, append(plotpath, '7_2a.pdf'))
 %% 3. Implementation of adaptive ESDIRK23
 
 %% 4. Test on the Van der Pol (and compare with ode45 and ode 15)
+Method = "myESDIRK23"
+
 mus = [3 20];
 abstols = [1e-02 1e-06 1e-09];
 reltols = abstols;
@@ -81,18 +83,19 @@ for i = 1:length(mus)
         [T, X, Gout,info,stats] = ESDIRK(@VanderPolFun,@VanderPolJac,tspan(1),tspan(end),x0,h0,abstol,reltol,Method,mu);
         
         subplot(1,2,i)
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive ESDIRK23, tol= %.5g',abstol)) ; hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive ESDIRK23, tol = %.5g',abstol)) ; hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
+    
     options = odeset('RelTol',reltol,'AbsTol',abstol);
     [T45,X45]=ode45(@VanderPolFun,tspan,x0,options,mu);
     [T15,X15]=ode15s(@VanderPolFun,tspan,x0,options,mu);
-    plot(X45(:,1), X45(:,2), DisplayName='ode45')
-    plot(X15(:,1), X15(:,2), DisplayName='ode15s')
+    plot(X45(:,1), X45(:,2), DisplayName=sprintf('ode45, tol = %.5g',abstol)')
+    plot(X15(:,1), X15(:,2), DisplayName=sprintf('ode15s, tol = %.5g',abstol))
     title(sprintf("Van Der Pol Solution (µ = %i)", mu))
     xlabel('X1')
     ylabel('X2')
-    legend(); hold off
+    legend('location', 'northwest'); hold off
 end
 exportgraphics(gcf, append(plotpath, '7_4b.pdf'))

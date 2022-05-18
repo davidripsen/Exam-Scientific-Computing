@@ -1,6 +1,6 @@
 function [Tout,Xout,Eout] = ...
         AdaptiveERKSolverErrorEstimation(fun,tspan,x0,h,solver, ...
-        varargin)
+        abstol, reltol, varargin)
 % ERKSOLVERERRORESTIMATION  Fixed step size ERK solver with error est.
 %s
 %                           Solves ODE systems in the form dx/dt = f(t,x)
@@ -10,8 +10,8 @@ function [Tout,Xout,Eout] = ...
 % [Tout,Xout,Eout]=ERKSolverErrorEstimation(fun,tspan,x0,h,solver,varargin)
 
 % Adaptive stepsize pars
-abstol=1e-05;
-reltol=1e-05;
+%abstol=1e-05;
+%reltol=1e-05;
 epstol=0.8;
 
 % Solver Parameters
@@ -78,5 +78,5 @@ while t < tf
     % Save output when AcceptStep == true
     Tout = [Tout; t];
     Xout = [Xout; x'];
-    Eout = [Eout; e'];
+    Eout = [Eout; e];
 end
