@@ -152,7 +152,7 @@ exportgraphics(gcf, append(plotpath, '2_4main_02.pdf'))
 mus = [3 20];
 abstols = [1e-04 1e-06];
 reltols = abstols;
-figure('Position', [100, 100, 1300, 600]);
+figure('Position', [100, 100, 1300, 800]);
 for i = 1:length(mus)
     for j = 1:length(abstols)
         mu = mus(i);
