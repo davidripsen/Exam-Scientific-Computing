@@ -110,7 +110,7 @@ disp('Bla bla bla')
 mus = [3 20];
 abstols = [1e-02];
 reltols = abstols;
-figure('Position', [100, 100, 1300, 600]);
+figure('Position', [100, 100, 1300, 800]);
 for i = 1:length(mus)
     for j = 1:length(abstols)
         mu = mus(i);
@@ -121,16 +121,16 @@ for i = 1:length(mus)
         abstol = abstols(j);
         reltol = reltols(j);
 
-        [T, X] = ExplicitEulerAdaptiveStep(...
+        [T, X, fcount, nreject] = ExplicitEulerAdaptiveStep(...
         @VanderPolFun,tspan,x0,h0,abstol,reltol,mu);
 
         % Choose N = length(T), i.e. same number of steps for the fixed
         % step size Euler.
-        [Tfix, Xfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T)-1, x0, mu);
+        [Tfix, Xfix, fcountfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T)-1, x0, mu);
         
         subplot(1,2,i)
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i)',abstol, length(T))) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i)', length(Tfix))); hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i, fevals=%.i)',abstol, length(T), fcount)) ; hold on
+        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i, fevals=%.i)', length(Tfix), fcountfix)); hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
@@ -163,17 +163,16 @@ for i = 1:length(mus)
         abstol = abstols(j);
         reltol = reltols(j);
 
-        [T, X] = ExplicitEulerAdaptiveStep(...
+        [T, X, fcount, nreject] = ExplicitEulerAdaptiveStep(...
         @VanderPolFun,tspan,x0,h0,abstol,reltol,mu);
 
         % Choose N = length(T), i.e. same number of steps for the fixed
         % step size Euler.
-        [Tfix, Xfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T)-1, x0, mu);
+        [Tfix, Xfix, fcountfix] = ExplicitEulerFixedStepSize(@VanderPolFun, tspan(1), tspan(2), length(T)-1, x0, mu);
         
         subplot(1,2,i)
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i)',abstol, length(T))) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i)', length(Tfix))); hold on
-        %shg % Show graph window
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i, fevals=%.i)',abstol, length(T), fcount)) ; hold on
+        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i, fevals=%.i)', length(Tfix), fcountfix)); hold on%shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
     

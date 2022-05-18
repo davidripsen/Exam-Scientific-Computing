@@ -1,4 +1,4 @@
-function [T,X] = ExplicitEulerAdaptiveStep(...
+function [T,X,fcount,nreject] = ExplicitEulerAdaptiveStep(...
     fun,tspan,x0,h0,abstol,reltol,varargin)
 epstol = 0.8;
 facmin = 0.1;
@@ -6,6 +6,8 @@ facmax = 5.0;
 
 t0 = tspan(1);
 tf = tspan(2);
+fcount = 0;
+nreject = 0;
 
 % Initial condtions
 t = t0;
@@ -20,6 +22,7 @@ while t < tf
     if (t + h >tf)
         h = tf-t;
     end
+    fcount = fcount+1;
     f = feval(fun,t,x,varargin{:});
 
     AcceptStep = false;
@@ -31,6 +34,7 @@ while t < tf
         hm = 0.5*h;
         tm = t + hm;
         xm = x + hm*f;
+        fcount = fcount +1;
         fm = feval(fun,tm,xm,varargin{:});
         x1hat = xm + hm*fm;
 
@@ -45,6 +49,8 @@ while t < tf
 
             T = [T;t];
             X = [X;x'];
+        else
+            nreject = nreject+1;
         end
         % Asymptotic step size controller
         h = max(facmin, min(sqrt(epstol/r), facmax))*h;
