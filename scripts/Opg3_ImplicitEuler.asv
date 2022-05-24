@@ -12,6 +12,8 @@ disp('Bla bla bla')
 %% 3.
 % se ImplicitEulerAdaptievStepSize
 
+
+
 %% 4. Adaptive on Jac Van Der Pol
 mus = [3 20];
 abstols = [1e-02 1e-04 1e-06];
@@ -36,7 +38,7 @@ for i = 1:length(mus)
         
         subplot(1,2,i)
         plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Implicit Euler, tol = %.5g (steps = %.i)',abstol, length(T))) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Implicit Euler, h = %.2g (steps = %.i)',1/(length(T-1)), length(Tfix))); hold on
+        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Implicit Euler, h = %.2g (steps = %.i)',1/(length(T-1)), length(Tfix)); hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15

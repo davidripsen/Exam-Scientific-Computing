@@ -130,7 +130,7 @@ for i = 1:length(mus)
         
         subplot(1,2,i)
         plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i, fevals=%.i)',abstol, length(T), fcount)) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i, fevals=%.i)', length(Tfix), fcountfix)); hold on
+        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler, h = %.2g (steps = %.i, fevals=%.i)',1/(length(T-1)), length(Tfix), fcountfix)); hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
@@ -172,7 +172,7 @@ for i = 1:length(mus)
         
         subplot(1,2,i)
         plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive Explicit Euler, tol = %.5g (steps = %.i, fevals=%.i)',abstol, length(T), fcount)) ; hold on
-        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler (steps = %.i, fevals=%.i)', length(Tfix), fcountfix)); hold on%shg % Show graph window
+        plot(Xfix(:,1), Xfix(:,2), DisplayName=sprintf('Fixed Explicit Euler, h = %.2g (steps = %.i, fevals=%.i)',1/(length(T-1)), length(Tfix), fcountfix)); hold on%shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
     
