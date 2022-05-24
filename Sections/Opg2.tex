@@ -30,7 +30,7 @@ And with adaptive step size where $\Delta t_k$ can change in each iteration k. T
 See the following MATLAB implementation of the Explicit Euler with fixed step size (as described in Section 2.1), well-suited for non-stiff problems.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
-\begin{lstlisting}[language=Matlab,caption=Explicit Euler (fixed step size), label=ExplicitEulerFixie]
+\begin{lstlisting}[frame=single, language=Matlab,caption=Explicit Euler (fixed step size), label=ExplicitEulerFixie]
 function [T,X, fcount] = ExplicitEulerFixedStepSize(fun,t0,tN,N,x0,varargin)
 % Compute step size and allocate memory
 fcount = 0;
@@ -57,6 +57,7 @@ end
 \end{adjustwidth*}
 
 \subsection{MATLAB implementation with adaptive step size}
+\label{sec:ExplicitEulerAdaptive}
 See the following MATLAB implementation of the Explicit Euler with adaptive step size, well-suited for stiff and non-stiff problems. The embedded error estimation is based on \textit{stop doubling}, i.e. estimating the error of a full step from the more accurate two half-steps. Going in greater detail with the adaptive step size:
 
 As mentioned, an Explicit Euler is taken with step size $\Delta {t_k}$ and then two half-steps is taken with step size $\Delta t_k$ and the \textit{error} of the Euler step is estimated as difference. I.e. 
@@ -88,7 +89,7 @@ The step size $\Delta t_{k+1}$ is increased or decreased with the formula
 Where $\epsilon$ represents a target $r_{k+1}$ value. For robustness, a minimum and maximum scaling factor of the step size is chosen and denoted \textit{facmin} and \textit{facmax}. See the MATLAB implementation below for the Adaptive Explicit Euler. Note that $h = \Delta t_{k}$ has been used.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
-\begin{lstlisting}[language=Matlab,caption=Explicit Euler (adaptive step size), label=ExplicitEulerFixie]
+\begin{lstlisting}[frame=single, language=Matlab,caption=Explicit Euler (adaptive step size), label=ExplicitEulerFixie]
 function [T,X,fcount,nreject] = ExplicitEulerAdaptiveStep(...
     fun,tspan,x0,h0,abstol,reltol,varargin)
 epstol = 0.8;
