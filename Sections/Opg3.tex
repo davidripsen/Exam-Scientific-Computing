@@ -239,6 +239,15 @@ Note however that the Adaptive Explicit Euler uses a lot more function evaluatio
     \label{fig:2_4a}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{plots/3_4main_zoom.pdf}
+    \caption{Implicit Euler method tested on the Van der Pol problem. Both an adaptive step size strategy with tolerance = 0.01 and a fixed step size strategy fixed to equal number of steps is applied.}
+    \label{fig:2_4a}
+\end{figure}
+
+
+
 
 \subsection{Discussion of interface}
 The methods have been implemented in a similar fashion to MATLAB's ode45 and ode15s for comparison purposes. For better comparison of fixed vs. adaptive step size, the implementation of the fixed step size was designed to be able to take a $N$ number of steps as input.
