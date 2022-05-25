@@ -6,7 +6,7 @@ $$
 where $x \in \mathbb{R}^{n_{x}}$ and $p \in \mathbb{R}^{n_{p}}$. In the following equations the parameters p are implicit in $f(t, x(t)) = f(t, x(t), p)$.
 
 \subsection{Implicit Euler}
-Whereas the Explicit Euler intuitively takes a discrete step forward with $\dot{x}_k$, the Implicit Euler intuitively takes a step \textit{backward} with $\dot{x}_{k+1}$ in each iteration \textit{k} \cite{JrgensenScientificEquationsb}:
+Whereas the Explicit Euler intuitively takes a discrete step forward with $\dot{x}_k$, one could say that the Implicit Euler intuitively takes a step \textit{backward} with $\dot{x}_{k+1} = f(t_{k+1}, x_{k+1})$ in each iteration \textit{k} \cite{JrgensenScientificEquationsb}:
 
 \begin{equation}
     x_{k+1}=x_{k}+\Delta t_k f\left(t_{k+1}, x_{k+1}\right)
@@ -35,7 +35,7 @@ Which can be solved as a linear system of equations \cite{JrgensenScientificEqua
 R\left(x_{k+1}\right)=x_{k+1}-\Delta t f\left(t_{k+1}, x_{k+1}\right)-x_{k}=0
 \end{equation}
 
-One can implicitly estimate $x_{k+1}$ by minimising the residual function. In practice, one chooses a tolerance $\epsilon$ for criteria of convergence where $\|R(x)\|_{\infty} \leq \epsilon$ or if a maximum number of iterations has been reached. Using the linear systems formulation, the function is then minimised by Newton's Method by iterating over
+One can implicitly estimate $x_{k+1}$ by minimising the residual function. In practice, one chooses a tolerance $\epsilon$ for criteria of convergence where $\|R(x)\|_{\infty} \leq \epsilon$ or if a maximum number of iterations has been reached. Using the linear systems formulation the function is then minimised by Newton's Method by iterating over
 
 $$
 \begin{aligned}
@@ -140,7 +140,7 @@ end
 
 
 \subsection{MATLAB implementation adaptive step size}
-See the following MATLAB implementation of the Implicit Euler with adaptive step size, well-suited for stiff and non-stiff problems. The embedded error estimation is based on \textit{stop doubling}, i.e. estimating the error of a full step from the more accurate two half-steps. This procedure has been explained in full detail in Section \ref{sec:ExplicitEulerAdaptive}.
+See the following MATLAB implementation of the Implicit Euler with adaptive step size, well-suited for stiff and non-stiff problems. The embedded error estimation is based on \textit{stop doubling}, i.e. estimating the error of a full step from the more accurate two half-steps. This procedure has been explained in full detail in Section \ref{sec:ExplicitEulerAdaptive}. The Newton's Method implementation is the same as in Listing \ref{Newton}.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
 \begin{lstlisting}[frame=single, language=Matlab,caption=Implicit Euler (adaptive step size), label=ExplicitEulerFixie]
@@ -219,35 +219,38 @@ end
 
 
 \subsection{Van der Pol}
-
-
-The phase potraits as obtained by solving the Van der Pol problem using the Adaptive Explicit Euler and Fixed (step size) Explicit Euler is seen in Figure \ref{fig:2_4a} and \ref{fig:2_4b}. The problem is solved for t = [0, 32] with $\mu = 3$ and $\mu =20$. Tolerances chosen are $reltol = abstol = \{10^{-2}, 10^{-4}, 10^{-6}\}$. Now a natural question arises, which fixed step sizes $h$ should be chosen for comparison with the adaptive method? The fixed step size $h$ was chosen to result in same number of steps as for the adaptive solution for comparison purposes.
+The phase potraits as obtained by solving the Van der Pol problem (Eq. \ref{eq:vanderpol}) using the Adaptive Implicit Euler and Fixed (step size) Implicit Euler is seen in Figure \ref{fig:3_4a} and \ref{fig:3_4b}. The problem is solved for t = [0, 32] with $\mu = 3$ and $\mu =20$. Tolerances chosen are $reltol = abstol = \{10^{-2}, 10^{-4}, 10^{-6}\}$. Again, the fixed step sizes $h$ has been chosen to result in same number of steps as for the adaptive solution for comparison purposes.
+\\
+In Figure \ref{fig:3_4a} and \ref{fig:3_4b} it is clear that the fixed step size is infeasible for the stiff problem ($\mu = 20$) until \textit{h} becomes very small h=$10^{-5.5}$ where it assimilates the behaviour of ode45 and ode15s. Remember that for \textit{h} becoming infinitesimally small the approximation becomes exact, so even for stiff problems a fixed step size Euler method can solve the problem accurate (but inefficient) by choosing an extremely small \textit{h}.\\
+For the non-stiff problem ($\mu = 3$) the Fixed Implicit Euler is not as crude of an approximation. Note however how the ode45 and ode15s requires much fewer (albeit more expensive) steps than the corresponding Adaptive Implicit Euler. \\
+Interestingly, it takes much fewer step to guarantee the specified tolerances in the stiff problem than for the non-stiff problem. 
 
 \\
-Clearly, for the stiff problem ($\mu = 20$) the fixed step size $h \approx 0.1$ is infeasible. The method is unstable and explodes towards $\infty$ (Figure \ref{fig:2_4a}). For the non-stiff problem ($\mu = 3$), the $h \approx 0.1$ is biased compared to the adaptive methods.
+Note on both plots how the Implicit Euler is biased inwards in the phase portrait whereas the Explicit Euler was biased outward. This is due to the very nature of the backward vs forward step of the two methods.
+
 \\
 
-When looking at tolerances of $\{10^{-4}, 10^{-6}\}$ seen in Figure \ref{fig:2_4b} the fixed step size is a lot more accurate, albeit a small bias in the non-stiff problem. For the stiff-problem $h=\frac{1612}{32}$ is very biased and only slightly biased for $h=\frac{14411}{32}$. There is no distinguishable difference between the Adaptive Euler and ode45/ode15s for tolerances $\geq 10^{-4}$.
-\\
 
-Note however that the Adaptive Explicit Euler uses a lot more function evaluations than the Fixed Explicit Euler. The choice is a trade-off between speed and accuracy.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{plots/3_4main.pdf}
-    \caption{Implicit Euler method tested on the Van der Pol problem. Both an adaptive step size strategy with tolerance = 0.01 and a fixed step size strategy fixed to equal number of steps is applied.}
-    \label{fig:2_4a}
+    \caption{Implicit Euler method tested on the Van der Pol problem. Both an adaptive step size strategy with tolerances $\in \{1e-02, 1e-04, 1e-06\}$ and a fixed step size strategy fixed to an equal number of steps is applied.}
+    \label{fig:3_4a}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.4\textwidth]{plots/3_4main_zoom.pdf}
-    \caption{Implicit Euler method tested on the Van der Pol problem. Both an adaptive step size strategy with tolerance = 0.01 and a fixed step size strategy fixed to equal number of steps is applied.}
-    \label{fig:2_4a}
+    \includegraphics[width=\textwidth]{plots/3_4main_zoom.eps}
+    \caption{Zoom-in of the Implicit Euler method tested on the Van der Pol problem. Both an adaptive step size strategy with tolerance = 0.01 and a fixed step size strategy fixed to equal number of steps is applied.}
+    \label{fig:3_4b}
 \end{figure}
 
 
 
 
 \subsection{Discussion of interface}
-The methods have been implemented in a similar fashion to MATLAB's ode45 and ode15s for comparison purposes. For better comparison of fixed vs. adaptive step size, the implementation of the fixed step size was designed to be able to take a $N$ number of steps as input.
+In this sections we have seen the Implicit Euler method, where the calculation of $x_{k+1}$ is done implicitly. We have seen how it still takes the Implicit Euler method a lot more steps to ensure a specific accuracy than the ode45 and ode15s. This calls for more sophisticated methods which will begin with Runge-Kutta methods in Section 5.
+\\
+The Implicit Euler methods have been implemented in a similar fashion to MATLAB's ode45 and ode15s for comparison purposes. For better comparison of fixed vs. adaptive step size, the implementation of the fixed step size was designed to take a $N$ number of steps as input.
+
