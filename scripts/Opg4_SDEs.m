@@ -11,7 +11,7 @@ plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computi
 
 
 mus = [3 20];
-sigmas = [0.1 1];
+sigmas = [0.1 2];
 
 for mu = mus
     j = 0;
@@ -23,7 +23,7 @@ for mu = mus
         p = [mu; sigma];
         tf = 32;
         nw = 1;
-        N = 5000; % Length of realization
+        N = 32/0.001; % Length of realization
         Ns = 5; % Number of realizations
         seed = 100;
          
@@ -82,10 +82,10 @@ for mu = mus
         title(sprintf('Imp-Exp  (µ = %.i, σ = %.1f)', mu, sigma))
         hold off
         %figure
-        set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
+        %set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
     end
 end
-exportgraphics(gcf, append(plotpath, '4a.pdf'))
+%exportgraphics(gcf, append(plotpath, '4a.pdf'))
 
 % hold on
 % subplot(2,1,1);

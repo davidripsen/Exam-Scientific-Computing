@@ -23,7 +23,7 @@ for mu = mus
         p = [mu; sigma];
         tf = 32;
         nw = 1;
-        N = 5000; % Length of realization
+        N = 0.001 / (); % Length of realization
         Ns = 5; % Number of realizations
         seed = 100;
          
@@ -65,7 +65,7 @@ for mu = mus
 %             X(:,:,i) = SDEsolverImplicitExplicit(...
 %                 @VanderPolDrift, @VanderPolDiffusion1,...
 %                 T,x0,W(:,:,i),p);
-%         end ¨
+%         end
         
         % Deterministic by setting sigma=0
         Xd = SDEsolverImplicitExplicit(...
@@ -82,9 +82,10 @@ for mu = mus
         title(sprintf('Imp-Exp  (µ = %.i, σ = %.1f)', mu, sigma))
         hold off
         %figure
-        set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
+        %set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
     end
 end
+%exportgraphics(gcf, append(plotpath, '4a.pdf'))
 
 % hold on
 % subplot(2,1,1);
