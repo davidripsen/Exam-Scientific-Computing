@@ -65,7 +65,7 @@ for mu = mus
 %             X(:,:,i) = SDEsolverImplicitExplicit(...
 %                 @VanderPolDrift, @VanderPolDiffusion1,...
 %                 T,x0,W(:,:,i),p);
-%         end
+%         end ¨
         
         % Deterministic by setting sigma=0
         Xd = SDEsolverImplicitExplicit(...
@@ -85,7 +85,6 @@ for mu = mus
         set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
     end
 end
-exportgraphics(gcf, append(plotpath, '4a.pdf'))
 
 % hold on
 % subplot(2,1,1);

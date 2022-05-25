@@ -1,4 +1,4 @@
-function X=SDEsolverImplicitExplicit(ffun,gfun,T,x0,W,varargin) 2
+function X=SDEsolverImplicitExplicit(ffun,gfun,T,x0,W,varargin)
 tol = 1.0e-8;
 maxit = 100;
 
