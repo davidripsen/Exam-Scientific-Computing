@@ -152,7 +152,28 @@ end
 \end{adjustwidth*}
 
 \subsection{Van der Pol}
-The phase potraits as obtained by solving the Van der Pol problem using the Adaptive Explicit Euler and Fixed (step size) Explicit Euler is seen in Figure \ref{fig:2_4a} and \ref{fig:2_4b}. The problem is solved for t = [0, 32] with $\mu = 3$ and $\mu =20$. Tolerances chosen are $reltol = abstol = \{10^{-2}, 10^{-4}, 10^{-6}\}$. Now a natural question arises, which fixed step sizes $h$ should be chosen for comparison with the adaptive method? The fixed step size $h$ was chosen to result in same number of steps as for the adaptive solution for comparison purposes.
+The Van der Pol oscillator problem is used extensively throughout this report to compare the different numerical solvers. It is defined as the 2nd order differential equation
+
+\begin{equation}
+\ddot{y}(t)=\mu\left(1-y(t)^{2}\right) \dot{y}(t)-y(t)
+\end{equation}
+
+Which can be rewritten to a 1st order differential equation \cite{JrgensenScientificEquationse}: 
+
+\begin{equation}
+\label{eq:vanderpol}
+\begin{aligned}
+&\dot{x}_{1}(t)=x_{2}(t) \\
+&\dot{x}_{2}(t)=\mu\left(1-x_{1}(t)^{2}\right) x_{2}(t)-x_{1}(t)
+\end{aligned}
+\end{equation}
+
+Where $y(t) = x_{1}(t)$.
+
+
+\\\
+
+The phase potraits as obtained by solving the Van der Pol problem (Eq. \ref{eq:vanderpol}) using the Adaptive Explicit Euler and Fixed (step size) Explicit Euler is seen in Figure \ref{fig:2_4a} and \ref{fig:2_4b}. The problem is solved for t = [0, 32] with $\mu = 3$ and $\mu =20$. Tolerances chosen are $reltol = abstol = \{10^{-2}, 10^{-4}, 10^{-6}\}$. Now a natural question arises, which fixed step sizes $h$ should be chosen for comparison with the adaptive method? The fixed step size $h$ was chosen to result in same number of steps as for the adaptive solution for comparison purposes.
 
 \\
 Clearly, for the stiff problem ($\mu = 20$) the fixed step size $h \approx 0.1$ is infeasible. The method is unstable and explodes towards $\infty$ (Figure \ref{fig:2_4a}). For the non-stiff problem ($\mu = 3$), the $h \approx 0.1$ is biased compared to the adaptive methods.
