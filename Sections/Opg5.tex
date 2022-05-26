@@ -5,6 +5,7 @@ As all other numerical solvers we have seen, Runge-Kutta discretizes the contino
 \underline{Stages}
 
 \begin{equation}
+\label{eq:RKgeneral1}
 \begin{aligned}
 &T_{i}=t_{n}+c_{i} \Delta t_n \quad i=1,2, \ldots, s\\
 &X_{i}=x_{n}+\Delta t_n \sum_{j=1}^{s} a_{i j} f\left(T_{j}, X_{j}\right) \quad i=1,2, \ldots, s
@@ -14,6 +15,7 @@ As all other numerical solvers we have seen, Runge-Kutta discretizes the contino
 Where the full \underline{next step} from $x_n$ to $x_{n+1}$ is calculated by
 
 \begin{equation}
+\label{eq:RKgeneral2}
 \begin{aligned}
 &t_{n+1}=t_{n}+\Delta t_n \\
 &x_{n+1}=x_{n}+\Delta t_n \sum_{j=1}^{s} b_{j} f\left(T_{j}, X_{j}\right) \\
@@ -51,6 +53,7 @@ T_{4}=t_{n}+\Delta t_n & X_{4}=x_{n}+\Delta t_n f\left(T_{3}, X_{3}\right)
 \end{equation*}
 
 \begin{equation}
+\label{eq:cRK1}
 \begin{aligned}
 &t_{n+1}=t_{n}+\Delta t_n \\
 &x_{n+1}=x_{n}+\Delta t_n\left(\frac{1}{6} f\left(T_{1}, X_{1}\right)+\frac{1}{3} f\left(T_{2}, X_{2}\right)+\frac{1}{3} f\left(T_{3}, X_{3}\right)+\frac{1}{6} f\left(T_{4}, X_{4}\right)\right)
@@ -60,223 +63,205 @@ T_{4}=t_{n}+\Delta t_n & X_{4}=x_{n}+\Delta t_n f\left(T_{3}, X_{3}\right)
 The classical Runge-Kutta has no embedded method for error estimation.
 
 \subsection{MATLAB implementation fixed step size}
-The above mentioned classical Runge-Kutta method is implemented in MATLAB with a fixed step size $\Delta t_n = h$. For easability, the Butcher Tableau is implemented separately for exporting the parameters:
+The above mentioned classical Runge-Kutta method is implemented in MATLAB with a fixed step size $\Delta t_n = h$. For readability, the classical Runge-Kutta step is implemented separately in listing \ref{ERKpars} to be used in listing \ref{ERK} and \ref{ERKadapt}. The classical Runge-Kutta step is simply the implementation of equation \ref{eq:cRK1}.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
-\begin{lstlisting}[frame=single, language=Matlab,caption=Classical Runge-Kutta Parameters, label=ERKpars]
-function solver = ERKSolverErrorEstimationParameters(method)
-% Parameter for specific ERK method
-o = nan;
-switch upper(method)
-    case 'RK44' % Classical Runge-Kutta
-        s = 4;
+\begin{lstlisting}[frame=single, language=Matlab,caption=Classical Runga-Kutta Step, label=ERKpars]
+function [t1, x1] = ClassicalRungeKuttaStep(...
+    fun,t,x,f,h,varargin)
+h2 = 0.5*h;
+alpha = h/6;
+beta = h/3;
 
-        A = zeros(s,s);
-        A(2,1) = 1/2;
-        A(3,2) = 1/2;
-        A(4,3) = 1;
+T1 = t;
+X1 = x;
+F1 = f;
 
-        b = [1/6; 1/3; 1/3; 1/6];
-        c = [0; 1/2; 1/2; 1];
-        d = [0; 0; 0; 0]; % Not Aplicable
+T2 = x+h2;
+X2 = x+h2*F1;
+F2 = feval(fun,T2,X2,varargin{:});
 
-    otherwise
-       error('Method not defined') 
-end
+T3 = T2;
+X3 = x+h2*F2;
+F3 = feval(fun,T3,X3,varargin{:});
 
-solver.AT = A';
-solver.b  = b;
-solver.c  = c;
-solver.d  = d;
-solver.o = o;
-solver.stages = s;
+T4 = t+h;
+X4 = x+h*F3;
+F4 = feval(fun,T4,X4,varargin{:});
+
+t1 = T4;
+x1 = x + alpha*(F1+F4) + beta*(F2+F3);
 \end{lstlisting}
 \end{adjustwidth*}
 
-The implementation in listing \ref{ERK} is an implementation of the more general family of Explicit Runge-Kutta methods. By exporting the parameters using listing \ref{ERKpars} one arrives as the classical Runge-Kutta.
+The classical Runge-Kutta with fixed step size is simply taking steps (listing \ref{ERKpars}) in the specified range as seen in listing \ref{ERK}.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
-\begin{lstlisting}[frame=single, language=Matlab,caption=Explicit Runge-Kutta, label=ERK]
-function [Tout,Xout,Eout] = ...
-        ERKSolverErrorEstimation(fun,tspan,x0,h,solver,varargin)
-% ERKSOLVERERRORESTIMATION  Fixed step size ERK solver with error est.
-%
-%                           Solves ODE systems in the form dx/dt = f(t,x)
-%                           with x(t0) = x0. 
-%
-% Syntax:
-% [Tout,Xout,Eout]=ERKSolverErrorEstimation(fun,tspan,x0,h,solver,varargin)
+\begin{lstlisting}[frame=single, language=Matlab,caption=Classical Runge-Kutta with fixed step size, label=ERK]
+function [T,X] = ClassicalRungeKuttaFixedStep(...
+    fun,tspan,x0,h,varargin)
+% Integration interval
+t0 = tspan(1);
+tf = tspan(2);
 
-% Solver Parameters
-s  = solver.stages;     % Number of stages in ERK method
-AT = solver.AT;         % Transpose of A-matrix in Butcher tableau
-b  = solver.b;          % b-vector in Butcher tableau
-c  = solver.c;          % c-vector in Butcher tableau
-d  = solver.d;
-%o  = solver.o;          % Order
+% Initial conditions
+t = t0;
+x = x0;
 
-% Parameters related to constant step size
-hAT = h*AT;
-hb  = h*b;
-hc  = h*c;
-hd  = h*d;
+T = t;
+X = x';
 
-% Size parameters
-x  = x0;                % Initial state
-t  = tspan(1);          % Initial time
-tf = tspan(end);        % Final time
-N = int64( (tf-t)/h );  % Number of steps
-nx = length(x0);        % System size (dim(x))
-
-% Allocate memory
-T  = zeros(1,s);        % Stage T
-X  = zeros(nx,s);       % Stage X
-F  = zeros(nx,s);       % Stage F
-
-Tout = zeros(N+1,1);    % Time for output
-Xout = zeros(N+1,nx);   % States for output
-Eout = zeros(N+1,nx);   % Errors for output
-
-% Algorithm starts here
-Tout(1) = t;        
-Xout(1,:) = x';
-for n=1:N
-    % Stage 1
-    T(1)   = t;
-    X(:,1) = x;
-    F(:,1) = fun(T(1),X(:,1),varargin{:});
-    
-    % Stage 2,3,...,s
-    T(2:s) = t + hc(2:s);
-    for i=2:s
-        X(:,i) = x + F(:,1:i-1)*hAT(1:i-1,i);
-        F(:,i) = feval(fun,T(i),X(:,i),varargin{:});
+%% Algo
+while t < tf
+    if (t+h > tf)
+        h = tf-t;
     end
-    
-    % Next step
-    t = t + h;
-    x = x + F*hb;
-    e = F*hd;
-    
-    % Save output
-    Tout(n+1) = t;
-    Xout(n+1,:) = x';
-    Eout(n+1,:) = e';
+    % f at x_n
+    f = feval(fun, t,x,varargin{:});
+
+    % Take step of size h to obtain x_{n+1}
+    [t, x] = ClassicalRungeKuttaStep(...
+        fun,t,x,f,h,varargin{:});
+
+     T = [T; t];
+     X = [X; x'];
 end
 \end{lstlisting}
 \end{adjustwidth*}
-
 
 
 
 \subsection{MATLAB implementation adaptive step size}
-Similarly to listing \ref{ERK}, the below implementation is the more general family of Adaptive Explicit Runge-Kutta methods. By extracting the parameters using listing \ref{ERKpars} one arrives as the classical Runge-Kutta. The error estimation is based on step doubling, iteratively decreasing the step size until the error (as estimated by taking the two half steps) is below specified tolerances. The step doubling procedure is described in full detail in Section \ref{sec:stepdoubling}.
+Similarly to listing \ref{ERK}, the below implementation of an adaptive step size uses classical Runge-Kutta steps (listing \ref{ERKpars}) and adaptively changes the step size relative to specified tolerances. The error estimation is based on step doubling, iteratively decreasing the step size until the error (as estimated by taking the two half steps) is below specified tolerances. The step doubling procedure is described in full detail in Section \ref{sec:stepdoubling}. The implementation of the adaptive classical Runge-Kutta is seen in listing \ref{ERKadapt}.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
-\begin{lstlisting}[frame=single, language=Matlab,caption=Adaptive Explicit Runge-Kutta, label=ERK]
-function [Tout,Xout,Eout] = ...
-        AdaptiveERKSolverErrorEstimation(fun,tspan,x0,h,solver, ...
-        abstol, reltol, varargin)
-% Epsilon tolerance
-epstol=0.8;
+\begin{lstlisting}[frame=single, language=Matlab,caption=Explicit Runge-Kutta with adaptive step size, label=ERKadapt]
+function [T,X,H] = ClassicalRungeKuttaAdaptiveStep(...
+    fun,tspan,x0,h0,abstol,reltol,varargin)
+epstol = 0.8;
+kpow = 0.2; % 1/(order+1)
+facmin = 0.1;
+facmax = 5;
 
-% Solver Parameters
-s  = solver.stages;     % Number of stages in ERK method
-AT = solver.AT;         % Transpose of A-matrix in Butcher tableau
-b  = solver.b;          % b-vector in Butcher tableau
-c  = solver.c;          % c-vector in Butcher tableau
-d  = solver.d;
-kpow  = solver.o+1;     % kpow = order + 1
+% Integration interval
+t0 = tspan(1);
+tf = tspan(2);
 
-h = h; % Initial step size
+% Initial conditions
+t = t0;
+h = h0;
+x = x0;
 
-% Size parameters
-x  = x0;                % Initial state
-t  = tspan(1);          % Initial time
-tf = tspan(end);        % Final time
-nx = length(x0);        % System size (dim(x))
+H = h;
+T = t;
+X = x';
 
-% Allocate memory
-T  = zeros(1,s);        % Stage T
-X  = zeros(nx,s);       % Stage X
-F  = zeros(nx,s);       % Stage F
-
-% More init
-Tout = t;        
-Xout = x';
-Eout = 0;
-
-% Algorithm starts here
+%% Algo
 while t < tf
-    if (t+h > tf) % Don't go too far
+    if (t+h > tf)
         h = tf-t;
     end
+    f = feval(fun, t,x,varargin{:});
 
     AcceptStep = false;
     while ~AcceptStep
-        %%% Runge-Kutta
-        % Stage 1
-        T(1)   = t;
-        X(:,1) = x;
-        F(:,1) = fun(T(1),X(:,1),varargin{:});
+        % Take step of size h
+        [t1, x1] = ClassicalRungeKuttaStep(...
+            fun,t,x,f,h,varargin{:});
+
+        % Take step of size h/2
+        hm=0.5*h;
+        [tm, xm] = ClassicalRungeKuttaStep(...
+            fun,t,x,f,h,varargin{:});
         
-        % Stage 2,3,...,s
-        T(2:s) = t + h*c(2:s);
-        for i=2:s
-            X(:,i) = x + F(:,1:i-1)*h*AT(1:i-1,i);
-            F(:,i) = feval(fun,T(i),X(:,i),varargin{:});
-        end
+        fm = feval(fun,tm,xm,varargin{:});
+        [t1hat, x1hat] = ClassicalRungeKuttaStep(...
+            fun,tm,xm,fm,hm,varargin{:});
 
-        % Estimate of apprixmation error
-        e = F*h*d;
-
-        % Controlling step size h relative to error
-        r = max(abs(e) ./ max(abstol, abs(x + F*h*b) .*reltol));
-        h = (epstol/r)^(1/kpow) * h;
+        % Error estimation
+        e = x1hat-x1;
+        r = max(abs(e) ./ max(abstol, abs(x1hat) .*reltol));
 
         AcceptStep = (r<=1.0);
         if AcceptStep
             t = t+h;
-            x = x + F*h*b;
+            x = x1hat;
+              
+            T = [T;t];
+            X = [X;x'];
+            H = [H;h]; % Save taken step sizes
         end
+        % Asymptotic step size controller
+        h = max(facmin,min((epstol/r)^kpow,facmax))*h;
     end
-    % Save output when AcceptStep == true
-    Tout = [Tout; t];
-    Xout = [Xout; x'];
-    Eout = [Eout; e];
 end
 \end{lstlisting}
 \end{adjustwidth*}
 
 \subsection{Van der Pol}
+Let us use the two numerical solvers for solving the Van der Pol problem defined as
+
+\begin{equation}
+\label{eq:vanderpol}
+\begin{aligned}
+&\dot{x}_{1}(t)=x_{2}(t) \\
+&\dot{x}_{2}(t)=\mu\left(1-x_{1}(t)^{2}\right) x_{2}(t)-x_{1}(t)
+\end{aligned}
+\end{equation}
+
 
 \subsubsection*{Fixed step size}
-For ...
+See Figure \ref{fig:5_4fix} for the solution using the fixed step size. Clearly there is an increasing precision for lowering the step size $h$. This is particularly the case for the stiff-problem ($\mu = 20$) where the solution quickly goes to $\infty$ for $h=0.1$.
 
-\begin{figure}[H]
+\begin{figure}[htb]
     \centering
-    \includegraphics[width=\textwidth]{plots/}
-    \caption{Solution of the state independent diffusion Van der Pol SDE with varying $\sigma$.}
-    \label{fig:4b}
+    \includegraphics[width=\textwidth]{plots/5_4fix_a.pdf}
+    \caption{Solution of Van der Pol using classical Runge-Kutta with fixed step size.}
+    \label{fig:5_4fix}
 \end{figure}
+
+
+
+
+
+
 
 \subsubsection*{Adaptive step size}
+The phase portrait of the solution from the solving the Van der Pol with the adaptive step size is seen in Figure \ref{fig:5_4}. It requires \textit{a lot} of steps for ensuring a tolerance of 1e-04 and 1e-06 was dropped due to computational time.\\
 
-\begin{figure}[H]
+The corresponding $x_1$ and $x_2$ values over time is seen in Figure \ref{fig:5_4a}. Here, the stiffness of the problem with $\mu = 20$ is really clear. Interestingly, but not surprisingly, the step sizes drops accordingly to the stiff peaks of $x_2$ as seen in Figure \ref{fig:5_4b}.
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{plots/4b.eps}
-    \caption{Solution of the state independent diffusion Van der Pol SDE with varying $\sigma$.}
-    \label{fig:4b}
+    \includegraphics[width=\textwidth]{plots/5_4.pdf}
+    \caption{Phase portrait of the solution of Van der Pol using classical Runge-Kutta with adaptive step size.}
+    \label{fig:5_4}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{plots/4b.eps}
-    \caption{Solution of the state independent diffusion Van der Pol SDE with varying $\sigma$.}
-    \label{fig:4b}
-\end{figure}
 
+
+
+
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{\textwidth}
+   \includegraphics[width=1\linewidth]{plots/5_4a.pdf}
+   \caption{}
+   \label{fig:5_4a} 
+\end{subfigure}
+
+\begin{subfigure}[b]{\textwidth}
+   \includegraphics[width=1\linewidth]{plots/5_4b.pdf}
+   \caption{}
+   \label{fig:5_4b}
+\end{subfigure}
+
+\caption[Two numerical solutions]{(a) Solved $x_1$ and $x_2$ of the Van der Pol using classical Runge-Kutta with adaptive step size. (b) Corresponding step sizes.}
+\end{figure}
 
 
 
 \subsection{Discussion of interface}
+In this sections we have seen the classical Runge-Kutta method, where the calculation of $x_{k+1}$ is done using 4 intermediate steps. Since the classical Runge-Kutta method is a very specific case of the general Runge-Kuta methods, it seems obvious to implement the more general family. That is what I did originally. But to show the classical Runge-Kutta more explicitly it was implemented directly\\
+It was implemented in a similar fashion to MATLAB’s ode45 and ode15s for easy switching between solvers.
