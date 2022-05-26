@@ -28,7 +28,6 @@ h = h; % INIT
 x  = x0;                % Initial state
 t  = tspan(1);          % Initial time
 tf = tspan(end);        % Final time
-N = (tf-t)/h;           % Number of steps
 nx = length(x0);        % System size (dim(x))
 
 % Allocate memory

@@ -53,15 +53,11 @@ for n=1:N
         X(:,i) = x + F(:,1:i-1)*hAT(1:i-1,i);
         F(:,i) = feval(fun,T(i),X(:,i),varargin{:});
     end
-
-    
     
     % Next step
     t = t + h;
     x = x + F*hb;
     e = F*hd;
-
-    
     
     % Save output
     Tout(n+1) = t;

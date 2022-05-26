@@ -13,6 +13,7 @@
 
 % 3.2) Implement
 solver = ERKSolverErrorEstimationParameters('DOPRI54');
+%solver = ERKSolverErrorEstimationParameters('RK44');
 
 % Test equation
 lambda = -1;
@@ -20,7 +21,7 @@ tspan = [0, 30];
 x0 = 1;
 h = 1/100;
 [Tout,Xout,Eout] = AdaptiveERKSolverErrorEstimation(@testeq,tspan,x0,h, ...
-    solver,lambda);
+    solver, abstol, reltol,lambda);
 
 plot(Tout, Xout)
 hold on

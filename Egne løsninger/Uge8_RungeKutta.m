@@ -1,5 +1,5 @@
 % Uge8_RungeKutta - Classical Runge Kutta
-solver = ERKSolverErrorEstimationParameters('RK44')
+solver = ERKSolverErrorEstimationParameters('RK44');
 
 % a) Describe Classical Runge-Kutta
 % A 4-step method wich is a weighed average of in-between steps when

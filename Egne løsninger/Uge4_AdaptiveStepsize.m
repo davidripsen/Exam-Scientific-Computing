@@ -24,11 +24,11 @@ plot(T(2:end),h)
 
 %% Classical RungeKuttaAdaptiveStep (4step)
 tspan = [0, 20];
-mu = 10;
+mu = 3;
 x0 = [2.0; 0.0];
 h0 = 1/10; % Initial step size
-abstol = 1e-05;
-reltol = 1e-05;
+abstol = 1e-03;
+reltol = 1e-03;
 [T, X] = ClassicalRungeKuttaAdaptiveStep(...
     @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
 
@@ -36,8 +36,8 @@ plot(T,X(:,1))
 hold on
 plot(T,X(:,2))
 hold off
-figure
-plot(T(2:end),h)
+%figure
+%plot(T(2:end),h)
 
 
 %% Adaptive Implicit Euler (Exact Newton)
