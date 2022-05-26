@@ -138,7 +138,7 @@ d x_{2}(t) &=\left[\mu\left(1-x_{1}(t)^{2}\right) x_{2}(t)-x_{1}(t)\right] d t+\
 And SDE version (2) of the Van der Pol problem:
 
 \begin{equation}
-\label{sde1}
+\label{sde2}
 \begin{aligned}
 &d x_{1}(t)=x_{2}(t) d t \\
 &d x_{2}(t)=\left[\mu\left(1-x_{1}(t)^{2}\right) x_{2}(t)-x_{1}(t)\right] d t+\sigma\left(1+x_{1}(t)^{2}\right) d \omega(t)
@@ -155,37 +155,45 @@ And fixed step size of $\Delta t = h = 0.001$ is used.
 
 \\\
 
-\textbf{Version (1) - state independent diffusion}
-In this section, equation (\ref{sde1}) is solved for realizations with $\sigma \in \{0.1 2.0\}$:
+\textbf{Version (1) - state independent diffusion}\\
+In this section, equation (\ref{sde1}) is solved with the two mentioned solvers with $\mu \in \{3, 20\}$ and $\sigma \in \{0.1, 2.0\}$ as seen in Figure \ref{fig:4b} and \ref{fig:4a}. For comparison, the exact same realizations from the Wiener Process is used for the two solvers. There is a high impact from $\sigma$ but for comparing Explicit-Explicit vs Implicit-Explicit there is only a slight visible difference between the two when $\mu = 20$ in Figure \ref{fig:4a}.
 
-\begin{figure}
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{plots/4b.eps}
-    \caption{cap}
+    \caption{Solution of the state independent diffusion Van der Pol SDE with varying $\sigma$.}
     \label{fig:4b}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{plots/4a.eps}
-    \caption{cap}
+    \caption{Solution of the state independent diffusion Van der Pol SDE with varying $\sigma$.}
     \label{fig:4a}
 \end{figure}
 
-\textbf{Version (1) - state independent diffusion}
-In this section, equation (\ref{sde1}) is solved for realizations with $\sigma \in \{0.1 2.0\}$:
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{plots/4c.eps}
-    \caption{cap}
-    \label{fig:4b}
-\end{figure}
+\\\
 
-\begin{figure}
+\textbf{Version (2) - state independent diffusion}\\
+In this section, equation (\ref{sde2}) is solved with the two mentioned solvers with $\mu \in \{3, 20\}$ and $\sigma \in \{0.1, 2.0\}$ as seen in Figure \ref{fig:4d} and \ref{fig:4c}. Again, the exact same realizations from the Wiener Process is used for the two solvers. There is a very high impact from $\sigma$, which for higher values makes the solution completely unstable. Interestingly, it is seen in Figure \ref{fig:4c} that the pertubations mainly effect the stiff regions of the ODE. For comparing Explicit-Explicit vs Implicit-Explicit one can only glimpse a small difference between the upper two plots in Figure \ref{fig:4c}. For this small of a step size (h = 0.001) the two approximations are almost identical.
+
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{plots/4d.eps}
-    \caption{cap}
-    \label{fig:4a}
+    \caption{Solution of the state dependent diffusion Van der Pol SDE with varying $\sigma$.}
+    \label{fig:4d}
 \end{figure}
 
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{plots/4c.eps}
+    \caption{Solution of the state dependent diffusion Van der Pol SDE with varying $\sigma$.}
+    \label{fig:4c}
+\end{figure}
+
+\\\
+
+In conclusion, two different numerical solvers has been proposed and shown feasible for solving stochastic differential equations.

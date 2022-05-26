@@ -57,7 +57,7 @@ end
 \end{adjustwidth*}
 
 \subsection{MATLAB implementation with adaptive step size}
-\label{sec:ExplicitEulerAdaptive}
+\label{sec:ExplicitEulerAdaptive} \label{sec:stepdoubling}
 See the following MATLAB implementation of the Explicit Euler with adaptive step size, well-suited for stiff and non-stiff problems. The embedded error estimation is based on \textit{stop doubling}, i.e. estimating the error of a full step from the more accurate two half-steps. Going in greater detail with the adaptive step size:
 
 As mentioned, an Explicit Euler is taken with step size $\Delta {t_k}$ and then two half-steps is taken with step size $\Delta t_k$ and the \textit{error} of the Euler step is estimated as difference. I.e. 
