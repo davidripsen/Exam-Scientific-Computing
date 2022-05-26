@@ -20,7 +20,7 @@ AT = solver.AT;         % Transpose of A-matrix in Butcher tableau
 b  = solver.b;          % b-vector in Butcher tableau
 c  = solver.c;          % c-vector in Butcher tableau
 d  = solver.d;
-kpow  = solver.o+1;     % kpow = order + 1
+kpow  = solver.o;     % kpow = order + 1
 
 h = h; % INIT
 

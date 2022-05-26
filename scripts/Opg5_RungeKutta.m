@@ -10,6 +10,7 @@ plotpath = '/Users/davidipsen/Documents/DTU/4. Semester (MSc)/Scientific Computi
 %% Phase portraint ---- FIXED STEP SIZE
 mus = [3 20];
 hs = [0.1 0.01 0.001];
+abstol = 1e-04; reltol = 1e-04;
 figure('Position', [100, 100, 1300, 800]);
 for i = 1:length(mus)
     for j = 1:length(hs)

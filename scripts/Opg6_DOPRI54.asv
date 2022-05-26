@@ -25,7 +25,7 @@ x0 = 1;
 h = 1/100;
 
 tols = [1e-02 1e-04 1e-06];
-figure
+
 for i=1:length(tols)
 
     abstol = tols(i);
@@ -39,15 +39,12 @@ for i=1:length(tols)
 end
 plot(linspace(0,10,1000), exp(lambda*linspace(0,10,1000)), 'DisplayName','Exact')
 title("Test equation (lambda=1)")
-xlabel("t")
-ylabel("x")
+xlabel(t)
+
 legend()
 hold off
-set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
-exportgraphics(gcf, append(plotpath, '6_3a.pdf'))
 
-%% 3b. Order and stability
-% Friiiday
+
 
 
 
