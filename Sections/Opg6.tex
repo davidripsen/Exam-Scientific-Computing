@@ -21,13 +21,24 @@ $e$ & $\frac{71}{57600}$ & 0 & $\frac{-71}{16695}$ & $\frac{71}{1920}$ & $\frac{
 \caption{Butchers Tableau of DOPRI54.}
 \end{table}
 
-In other words, it has 7 stages and it is a 5th order method with a 4th order embedded method for error estimation. This means that the error the method commits from the exact solution is estimated by the difference between the 4th order solution from the more accurate 5th order solution: $e_n = x_n - \hat{x}_n$. The step size $h_n$ is then iteratively updated by
+In other words, it has 7 stages and it is a 5th order method with a 4th order embedded method for error estimation. This means that the error the method commits from the exact solution is estimated by the difference between the 4th order solution from the more accurate 5th order solution: $e_n = x_n - \hat{x}_n = \Delta t_k \sum_{j=1}^{s} d_{j} f\left(T_{j}, X_{j}\right)$. The step size $\Delta t_n$ is then iteratively updated by
 
 \begin{equation}
-h_{n+1}=\left(\frac{\epsilon}{r_{n+1}}\right)^{\frac{1}{5}} h_{n}
+\Delta t_{n+1, j}=\left(\frac{\epsilon}{r_{n+1, j}}\right)^{\frac{1}{5}} \Delta t_{n, j}
 \end{equation}
-Where $r_{n+1} = \left\|e_{n+1}\right\|_\infty$. Often the power used is $\frac{1}{p+1}$ for when the embedded method is the one of highest order. However in this case the embedded method is of order 4 and therefore $\frac{1}{4+1}$ is used. \\
-Since it is a 5th order method the local approximations error $l_n \propto (\Delta t_n)^{5}$.
+
+Over iterations of \textit{j}, until $r_{n+1, j} \leq 1$ where the step size is passed on $\Delta t_{n+1} = \Delta t_{n+1, j_{r\leq1}}$. $r_{n+1}$ is then calculated as
+\begin{equation}
+    r_{n+1} = \left\|e_{n+1}\right\|_\infty = \max _{p \in\{1, \ldots, P\}} \frac{\left|e_{p}\right|}{\mathrm{abs}_{p}+\left|x_{p}\right| \mathrm{rel}_{p}}
+\end{equation}
+
+Where \textit{P} is the dimension of $\boldsymbol{x}$. In this report, $\mathrm{abs}_p = \mathrm{rel}_p \quad \forall_p$ will be used.
+
+
+
+
+Often the power used is $\frac{1}{p+1}$ for when the embedded method is the one of highest order. However in this case the embedded method is of order 4 and therefore $\frac{1}{4+1}$ is used. \\
+Since it is a 5th order method the local approximations error $l_n \propto (\Delta t_n)^{6}$.
 
 \subsection{MATLAB implementation adaptive step size}
 The following listing implements the DOPRI54 as described in the previous section.
@@ -145,7 +156,17 @@ $$
 x(t) = \exp(\lambda t)
 $$
 
-And choosing $\lambda=-1$ and $x_{0}=1$ the approximated solutions as obtained by DOPRI54 is seen in Figure reeeef.  <-- hertil
+And choosing $\lambda=-1$ and $x_{0}=1$ the approximated solutions as obtained by DOPRI54 is seen in Figure \ref{fig:6_3}. For a high tolerance the solution is quite off and with a decreasing tolerance the solution approaches that of the exact, analytical solution. Note how the DOPRI54 is not only far off the right solution, its embedded error estimation is also far off.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{plots/6_3a.pdf}
+    \caption{DOPRI54 solution on the test equation with $\lambda=-1$.}
+    \label{fig:6_3}
+\end{figure}
+
+
+
 
 \subsection{Van der Pol}
 
