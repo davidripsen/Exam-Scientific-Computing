@@ -237,10 +237,139 @@ for i = 1:length(mus)
     ylabel('X2')
     legend('location', 'southoutside'); hold off
 end
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '6_5.pdf'))
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 5. Adiabatic CSTR - 3D
+solver = 'DOPRI54';
+method = 'CSTR3D';
+TimeAx = [0, 3, 5, 7,9,12,16,18,20,22,24,28,32,35]; 
+F = [700, 600, 500, 400, 300, 200, 300,400,500,600,700,200,700];
+
+TimeAx_conv = TimeAx*60; % Convert to s
+F_conv = F/(60*1000); % Convert to L/s
+
+% Solve the 3D problem
+x0 = [0;0;273.65]; % Page 503
+h0 = 1/100;
+abstol = 1e-06;
+reltol = abstol;
+
+[T3d,X3d] = cstrSimulator(solver,TimeAx_conv,F_conv,x0,method,abstol,reltol,h0);
+
+figure('Position', [100, 100, 1300, 800]);
+subplot(2,1,1)
+plot(T3d/60,X3d(:,3)-273.15, 'linewidth',2)
+title("CSTR 3D")
 set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 
-%% 5. Adiabatic CSTR
+
+%xlabel('Time [min]')
+ylabel('T [K]')
+xlim([TimeAx(1),TimeAx(end)])
+ylim([0,85])
+grid on
+subplot(2,1,2)
+hold on
+for i = 1:length(F)
+    line([TimeAx(i),TimeAx(i+1)],[F(i),F(i)],'linewidth',2)
+    if i < length(F)
+        line([TimeAx(i+1),TimeAx(i+1)],[F(i),F(i+1)],'linewidth',2)
+    end
+end
+hold off
+xlabel('t [min]')
+ylabel('F [mL/min]')
+xlim([TimeAx(1),TimeAx(end)])
+ylim([0,1000])
+grid on
+set(findall(0, '-property', 'fontsize'), 'fontsize', 20)
+exportgraphics(gcf, append(plotpath, '6_5_3D.pdf'))
+
+
+
+
+
+
+
+%% 5. Adiabatic CSTR - 1D
+solver = 'DOPRI54';
+method = 'CSTR1D';
+
+% Solve the 1D problem
+x0 = 273.65; % Page 503
+h0 = 1/100;
+abstol = 1e-06;
+reltol = abstol;
+
+[T1d,X1d] = cstrSimulator(solver,TimeAx_conv,F_conv,x0,method,abstol,reltol,h0);
+
+figure('Position', [100, 100, 1300, 800]);subplot(2,1,1)
+plot(T1d/60,X1d-273.15,'LineWidth',2)
+title("CSTR 1D")
+%xlabel('Time [min]')
+ylabel('T [K]')
+xlim([TimeAx(1),TimeAx(end)])
+ylim([0,85])
+grid on
+subplot(2,1,2)
+hold on
+for i = 1:length(F)
+    line([TimeAx(i),TimeAx(i+1)],[F(i),F(i)],'linewidth',2)
+    if i < length(F)
+        line([TimeAx(i+1),TimeAx(i+1)],[F(i),F(i+1)],'linewidth',2)
+    end
+end
+hold off
+xlabel('t [min]')
+ylabel('F [mL/min]')
+xlim([TimeAx(1),TimeAx(end)])
+ylim([0,1000])
+grid on
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
+exportgraphics(gcf, append(plotpath, '6_5_1D.pdf'))
+
+%% Comparison of 3D vs 1D
+figure('Position', [100, 100, 1300, 800]);
+subplot(2,1,1)
+plot(T1d/60,X1d-273.15,'linewidth',2)
+hold on
+plot(T3d/60,X3d(:,3)-273.15,'LineWidth',2)
+hold off
+xlabel('Time [min]')
+ylabel('T [K]')
+xlim([TimeAx(1),TimeAx(end)])
+ylim([0,85])
+legend({'1D','3D'},'location','northwest')
+grid on
+
+subplot(2,1,2)
+plot(T1d/60,X1d-273.15,'linewidth',2)
+hold on
+plot(T3d/60,X3d(:,3)-273.15,'LineWidth',2)
+hold off
+xlabel('Time [min]')
+ylabel('T [K]')
+xlim([TimeAx(1),2])
+ylim([0,3.5])
+grid on
+set(findall(0, '-property', 'fontsize'), 'fontsize', 20)
+exportgraphics(gcf, append(plotpath, '6_5_both.pdf'))
+
+
+
+
+
+
+
+
+
 
 
 
