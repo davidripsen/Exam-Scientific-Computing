@@ -36,6 +36,7 @@ for i=1:length(tols)
     
     plot(Tout, Xout, 'DisplayName', sprintf('DOPRI54  (tol=%.2g)', abstol))
     hold on
+    disp(Tout)
 end
 plot(linspace(0,10,1000), exp(lambda*linspace(0,10,1000)), 'DisplayName','Exact')
 title("Test equation (lambda=1)")
@@ -47,11 +48,6 @@ set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 
 %%% 3. On test equation - 2
 subplot(2,1,2)
-
-lambda = -1;
-tspan = [0, 10];
-x0 = 1;
-h = 1/100;
 
 tols = [1e-02 1e-04 1e-06];
 for i=1:length(tols)
@@ -208,13 +204,13 @@ exportgraphics(gcf, append(plotpath, '6_3c.pdf'))
 %% 4. Van Der Pol
 solver = ERKSolverErrorEstimationParameters('DOPRI54');
 mus = [3 20];
-abstols = [1e-02 1e-06 1e-09];
+abstols = [1e-02 1e-04 1e-06];
 reltols = abstols;
+figure('Position', [100, 100, 1300, 800]);
 for i = 1:length(mus)
     for j = 1:length(abstols)
         mu = mus(i);
         tspan = [0, 32];
-        %mu = 3; % mu = 20
         x0 = [1.0; 1.0];
         h0 = 1/100; % Initial step size
         abstol = abstols(j);
@@ -226,7 +222,7 @@ for i = 1:length(mus)
                 solver,abstol,reltol,mu);
 
         subplot(1,2,i)
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive DOPRI54, tol = %.5g',abstol)) ; hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive DOPRI54, tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
@@ -239,10 +235,10 @@ for i = 1:length(mus)
     title(sprintf("Van Der Pol Solution (µ = %i)", mu))
     xlabel('X1')
     ylabel('X2')
-    legend('location', 'northwest'); hold off
+    legend('location', 'southoutside'); hold off
 end
-exportgraphics(gcf, append(plotpath, '6_d.pdf'))
-
+exportgraphics(gcf, append(plotpath, '6_5.pdf'))
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 
 %% 5. Adiabatic CSTR
 
