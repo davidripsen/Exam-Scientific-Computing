@@ -3,6 +3,7 @@
 A special case of Runge-Kutta methods is the Dormand-Price. So relating to the general Runge-Kutta formulas in equation \ref{eq:RKgeneral1} and \ref{eq:RKgeneral2}, the Dormand-Prince method is obtained by choosing coefficients summarised by the following Butchers Tableau \cite{JrgensenRunge-KuttaEquations}:
 
 \begin{table}[H]
+\label{tab:DOPRI54}
 \centering
 %\caption{}
 %\label{tab:q6_ButcherDOPRI54}
@@ -24,7 +25,7 @@ $e$ & $\frac{71}{57600}$ & 0 & $\frac{-71}{16695}$ & $\frac{71}{1920}$ & $\frac{
 In other words, it has 7 stages and it is a 5th order method with a 4th order embedded method for error estimation. This means that the error the method commits from the exact solution is estimated by the difference between the 4th order solution from the more accurate 5th order solution: $e_n = x_n - \hat{x}_n = \Delta t_k \sum_{j=1}^{s} d_{j} f\left(T_{j}, X_{j}\right)$. The step size $\Delta t_n$ is then iteratively updated by
 
 \begin{equation}
-\Delta t_{n+1, j}=\left(\frac{\epsilon}{r_{n+1, j}}\right)^{\frac{1}{5}} \Delta t_{n, j}
+\Delta t_{n+1, j}=\left(\frac{\epsilon}{r_{n+1, j}}\right)^{\frac{1}{5+1}} \Delta t_{n, j}
 \end{equation}
 
 Over iterations of \textit{j}, until $r_{n+1, j} \leq 1$ where the step size is passed on $\Delta t_{n+1} = \Delta t_{n+1, j_{r\leq1}}$. $r_{n+1}$ is then calculated as
@@ -37,7 +38,7 @@ Where \textit{P} is the dimension of $\boldsymbol{x}$. In this report, $\mathrm{
 
 
 
-Often the power used is $\frac{1}{p+1}$ for when the embedded method is the one of highest order. However in this case the embedded method is of order 4 and therefore $\frac{1}{4+1}$ is used. \\
+%Often the power used is $\frac{1}{p+1}$ for when the embedded method is the one of highest order. However in this case the embedded method is of order 4 and therefore $\frac{1}{4+1}$ is used. \\
 Since it is a 5th order method the local approximations error $l_n \propto (\Delta t_n)^{6}$.
 
 \subsection{MATLAB implementation adaptive step size}
@@ -81,7 +82,7 @@ b = [35/384; 0; 500/1113; 125/192; -2187/6784; 11/84; 0];
 c = [0; 1/5; 3/10; 4/5; 8/9; 1; 1];
 d = [71/57600; 0; -71/16695; 71/1920; -17253/339200; 22/525; -1/40];
 o = 5; % Order p=5
-kpow  = 1/(o);     % Usually: kpow = 1/(order + 1)
+kpow  = 1/(o+1);     % kpow = 1/(order + 1)
 
 h = h; % INIT
 
@@ -156,19 +157,61 @@ $$
 x(t) = \exp(\lambda t)
 $$
 
-And choosing $\lambda=-1$ and $x_{0}=1$ the approximated solutions as obtained by DOPRI54 is seen in Figure \ref{fig:6_3}. For a high tolerance the solution is quite off and with a decreasing tolerance the solution approaches that of the exact, analytical solution. Note how the DOPRI54 is not only far off the right solution, its embedded error estimation is also far off.
+And choosing $\lambda=-1$ and $x_{0}=1$ the approximated solutions as obtained by DOPRI54 is seen in Figure \ref{fig:6_3}. For a high tolerance the solution is quite off and with a decreasing tolerance the solution approaches that of the exact, analytical solution. Note how the DOPRI54 is not only far off the right solution, its embedded error estimation is also far off.\\
 
-\begin{figure}[htb]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.7\textwidth]{plots/6_3a.pdf}
+    \includegraphics[width=\textwidth]{plots/6_3a.pdf}
     \caption{DOPRI54 solution on the test equation with $\lambda=-1$.}
     \label{fig:6_3}
 \end{figure}
+
+Now in terms of \textit{order} of the DOPRI54 method it has already been mentioned that it is a order 5 method. Let us verify that using the definition in Section 1.4. Recall that the order \textit{p} refers to the number of terms in the Taylor-expansion and that the local error is $l_{k}=\mathcal{O}\left(h_{k}^{p+1}\right)$. In Figure \ref{fig:6_3b} the local error of the DOPRI54 method is shown alongside other methods for context. Clearly it is method with higher accuracy. The slope of the linear line in the log-log plot is:
+
+\begin{equation*}
+    a_{DOPRI54} = 6.03 \implies p = 5 
+\end{equation*}
+
+I.e. DOPRI54 is a 5th order method.
+
+\\\
+
+Now in terms of \textit{stability}, the transfer function for any Runge-Kutta method is calculated as 
+
+\begin{equation}
+R(z)=1+z b^{\prime}(I-z A)^{-1} e
+\end{equation}
+
+Where $z = \lambda \cdot h$. By insertion of the relevant coefficients for the DOPRI54 as seen in Table \ref{tab:DOPRI54}, the resulting stability can be seen in Figure \ref{fig:6_3c}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{plots/6_3b.pdf}
+    \caption{Local error of DOPRI54 alongside other methods on the test equation.}
+    \label{fig:6_3b}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{plots/6_3c.pdf}
+    \caption{Transfer function values for the DOPRI54 solution evaluated on $z = \lambda \cdot h$}
+    \label{fig:6_3c}
+\end{figure}
+
+The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)| \geq 1$ for some $z$ where $Re(z) < 0$ the method is not A-stable and therefore neither L-stable.
+
+
+
 
 
 
 
 \subsection{Van der Pol}
+
+
+
+
+
 
 \subsection{Adiabatic Continuous Stirred Tank Reactor}
 
