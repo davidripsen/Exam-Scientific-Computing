@@ -262,7 +262,17 @@ Inlet temperature        & T_{in}     & 273.65    & K               \\  \hline
 \end{tabular}
 \end{table}
 
-Now running the implemented DOPRI54 on this problem the solution can be seen in Figure \ref{}.
+Now running the implemented DOPRI54 on this problem the solution can be seen in Figure \ref{fig:6_5_3d}.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/6_5_3D.pdf}
+    \caption{CSTR 3D solved with DOPRI54.}
+    \label{fig:6_5_3d}
+\end{figure}
+
+
 
 \subsubsection*{CSTR 1D}
 Now the paper [ibid.] also suggests a 1-dimensional simplification of the 3-dimensional for when the exothermic dynamics is the main interest. The ODE is the formulated as
@@ -271,8 +281,22 @@ Now the paper [ibid.] also suggests a 1-dimensional simplification of the 3-dime
 \dot{T}=\frac{F}{V}\left(T_{i n}-T\right)+R_{T}\left(C_{A}(T), C_{B}(T), T\right)
 \end{equation}
 
-The solution of running the DOPRI54 implementation on this problem can be seen in Figure \ref{}. Figure \ref{} compares the two implementations.
+The solution of running the DOPRI54 implementation on this problem can be seen in Figure \ref{fig:6_5_1d}. Figure \ref{fig:6_5_both} compares the two implementations.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/6_5_1D.pdf}
+    \caption{CSTR 1D solved with DOPRI54.}
+    \label{fig:6_5_1d}
+\end{figure}
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/6_5_both.pdf}
+    \caption{Comparison of solution from 3D CSTR vs 1D CSTR.}
+    \label{fig:6_5_both}
+\end{figure}
+
+<--- hertil
 
 \subsection{Comparison with ode45}
 
