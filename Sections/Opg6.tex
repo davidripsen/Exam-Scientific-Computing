@@ -207,6 +207,14 @@ The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)
 
 
 \subsection{Van der Pol}
+The results on applying the DOPRI54 implementation on the Van der Pol problem is seen in Figure \ref{fig:6_4}. Clearly the approximate solution becomes more and more accurate for lower tolerances. Additionally it is seen that it requires many more steps on the stiff problem. Interstingly, it requires fewer steps to ensure a $tol = 1e-04$ than $tol = 1e-02$ on the stiff problem. Since MATLAB'S \textit{ode45} is an implementation of the DOPRI54 a more thorough comparison between the two is presented in Section 6.6.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/6_5.pdf}
+    \caption{Phase portrait of the Van der Pol solution using DOPRI54 as for a numerical approximation.}
+    \label{fig:6_4}
+\end{figure}
 
 
 
@@ -214,6 +222,57 @@ The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)
 
 
 \subsection{Adiabatic Continuous Stirred Tank Reactor}
+The Adiabatic Continuous Stirred Tank Reactor (CSTR) is a stoichiometric and exothermic model of the form (see \cite{Wahlgreen2020NonlinearCSTR} for details):
+
+\begin{equation}
+\begin{aligned}
+\dot{C}_{A} &=\frac{F}{V}\left(C_{A, i n}-C_{A}\right)+R_{A}\left(C_{A}, C_{B}, T\right) \\
+\dot{C}_{B} &=\frac{F}{V}\left(C_{B, i n}-C_{B}\right)+R_{B}\left(C_{A}, C_{B}, T\right) \\
+\dot{T} &=\frac{F}{V}\left(T_{i n}-T\right)+R_{T}\left(C_{A}, C_{B}, T\right)
+\end{aligned}
+\end{equation}
+
+i.e. a system of 3 ordinary differential equations. Where
+\begin{equation}
+\begin{aligned}
+&R_{A}=R_{A}\left(C_{A}, C_{B}, T\right)=-r\left(C_{A}, C_{B}, T\right) \\
+&R_{B}=R_{B}\left(C_{A}, C_{B}, T\right)=-2 r\left(C_{A}, C_{B}, T\right)\\
+&R_{T}=R_{T}\left(C_{A}, C_{B}, T\right)=\beta r\left(C_{A}, C_{B}, T\right)
+\end{aligned}
+\end{equation}
+
+Now in the following problem, the constants in Table \ref{tab:constants} are used.
+
+\newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
+\begin{table}[h]
+\label{tab:constants}
+\caption{Table summarising the constants used in the CSTR model}
+\centering
+\begin{tabular}{lLLL}
+\hline
+Density                  & \rho       & 1.0       & kg/L            \\
+Heat capacity            & c_P        & 4.186     & kJ/(kg \cdot K) \\
+Arrhenius constant       & k_0        & exp(24.6) & L/(mol \cdot s) \\
+Activation energy        & E_a/R      & 8500      & K               \\
+Reaction enthalpy        & \Delta H_r & -560      & kJ/mol          \\
+Reactor volume           & V          & 0.105     & L               \\
+Inlet concentration of A & C_{A,in}   & 1.6/2     & mol/L           \\
+Inlet concentration of B & C_{B,in}   & 2.4/2     & mol/L           \\
+Inlet temperature        & T_{in}     & 273.65    & K               \\  \hline
+\end{tabular}
+\end{table}
+
+Now running the implemented DOPRI54 on this problem the solution can be seen in Figure \ref{}.
+
+\subsubsection*{CSTR 1D}
+Now the paper [ibid.] also suggests a 1-dimensional simplification of the 3-dimensional for when the exothermic dynamics is the main interest. The ODE is the formulated as
+
+\begin{equation}
+\dot{T}=\frac{F}{V}\left(T_{i n}-T\right)+R_{T}\left(C_{A}(T), C_{B}(T), T\right)
+\end{equation}
+
+The solution of running the DOPRI54 implementation on this problem can be seen in Figure \ref{}. Figure \ref{} compares the two implementations.
+
 
 \subsection{Comparison with ode45}
 
@@ -245,21 +304,3 @@ The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)
 
 
 
-\newcolumntype{L}{>{$}l<{$}} % math-mode version of "l" column type
-\begin{table}[htbp]
-\label{tab:constants}
-\caption{Table summarising the constants used in the CSTR model}
-\centering
-\begin{tabular}{lLLL}
-\hline
-Density                  & \rho       & 1.0       & kg/L            \\
-Heat capacity            & c_P        & 4.186     & kJ/(kg \cdot K) \\
-Arrhenius constant       & k_0        & exp(24.6) & L/(mol \cdot s) \\
-Activation energy        & E_a/R      & 8500      & K               \\
-Reaction enthalpy        & \Delta H_r & -560      & kJ/mol          \\
-Reactor volume           & V          & 0.105     & L               \\
-Inlet concentration of A & C_{A,in}   & 1.6/2     & mol/L           \\
-Inlet concentration of B & C_{B,in}   & 2.4/2     & mol/L           \\
-Inlet temperature        & T_{in}     & 273.65    & K               \\  \hline
-\end{tabular}
-\end{table}
