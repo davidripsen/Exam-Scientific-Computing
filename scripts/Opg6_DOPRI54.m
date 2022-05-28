@@ -258,7 +258,7 @@ F_conv = F/(60*1000); % Convert to L/s
 % Solve the 3D problem
 x0 = [0;0;273.65]; % Page 503
 h0 = 1/100;
-abstol = 1e-06;
+abstol = 1e-12;
 reltol = abstol;
 
 [T3d,X3d] = cstrSimulator(solver,TimeAx_conv,F_conv,x0,method,abstol,reltol,h0);
@@ -271,7 +271,7 @@ set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 
 
 %xlabel('Time [min]')
-ylabel('T [K]')
+ylabel('T [C]')
 xlim([TimeAx(1),TimeAx(end)])
 ylim([0,85])
 grid on
@@ -305,7 +305,7 @@ method = 'CSTR1D';
 % Solve the 1D problem
 x0 = 273.65; % Page 503
 h0 = 1/100;
-abstol = 1e-06;
+abstol = 1e-12;
 reltol = abstol;
 
 [T1d,X1d] = cstrSimulator(solver,TimeAx_conv,F_conv,x0,method,abstol,reltol,h0);
@@ -314,7 +314,7 @@ figure('Position', [100, 100, 1300, 800]);subplot(2,1,1)
 plot(T1d/60,X1d-273.15,'LineWidth',2)
 title("CSTR 1D")
 %xlabel('Time [min]')
-ylabel('T [K]')
+ylabel('T [C]')
 xlim([TimeAx(1),TimeAx(end)])
 ylim([0,85])
 grid on
@@ -343,7 +343,7 @@ hold on
 plot(T3d/60,X3d(:,3)-273.15,'LineWidth',2)
 hold off
 xlabel('Time [min]')
-ylabel('T [K]')
+ylabel('T [C]')
 xlim([TimeAx(1),TimeAx(end)])
 ylim([0,85])
 legend({'1D','3D'},'location','northwest')
@@ -355,7 +355,7 @@ hold on
 plot(T3d/60,X3d(:,3)-273.15,'LineWidth',2)
 hold off
 xlabel('Time [min]')
-ylabel('T [K]')
+ylabel('T [C]')
 xlim([TimeAx(1),2])
 ylim([0,3.5])
 grid on
