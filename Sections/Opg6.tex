@@ -45,7 +45,7 @@ Since it is a 5th order method the local approximations error $l_n \propto (\Del
 The following listing implements the DOPRI54 as described in the previous section.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
-\begin{lstlisting}[frame=single, language=Matlab,caption=DOPRI54, label=ERKpars]
+\begin{lstlisting}[frame=single, language=Matlab,caption=DOPRI54, label=DOPRI54]
 function [Tout,Xout,Eout] = ...
         DOPRI54Adaptive(fun,tspan,x0,h,solver, ...
         abstol, reltol, varargin)
@@ -174,6 +174,13 @@ Now in terms of \textit{order} of the DOPRI54 method it has already been mention
 
 I.e. DOPRI54 is a 5th order method.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{plots/6_3b.pdf}
+    \caption{Local error of DOPRI54 alongside other methods on the test equation.}
+    \label{fig:6_3b}
+\end{figure}
+
 \\\
 
 Now in terms of \textit{stability}, the transfer function for any Runge-Kutta method is calculated as 
@@ -184,21 +191,16 @@ R(z)=1+z b^{\prime}(I-z A)^{-1} e
 
 Where $z = \lambda \cdot h$. By insertion of the relevant coefficients for the DOPRI54 as seen in Table \ref{tab:DOPRI54}, the resulting stability can be seen in Figure \ref{fig:6_3c}.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.7\textwidth]{plots/6_3b.pdf}
-    \caption{Local error of DOPRI54 alongside other methods on the test equation.}
-    \label{fig:6_3b}
-\end{figure}
 
-\begin{figure}[h]
+
+The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)| \geq 1$ for some $z$ where $Re(z) < 0$ the method is not A-stable and therefore neither L-stable.
+
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{plots/6_3c.pdf}
     \caption{Transfer function values for the DOPRI54 solution evaluated on $z = \lambda \cdot h$}
     \label{fig:6_3c}
 \end{figure}
-
-The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)| \geq 1$ for some $z$ where $Re(z) < 0$ the method is not A-stable and therefore neither L-stable.
 
 
 
@@ -222,6 +224,7 @@ The results on applying the DOPRI54 implementation on the Van der Pol problem is
 
 
 \subsection{Adiabatic Continuous Stirred Tank Reactor}
+\subsubsection*{CSTR 3D}
 The Adiabatic Continuous Stirred Tank Reactor (CSTR) is a stoichiometric and exothermic model of the form (see \cite{Wahlgreen2020NonlinearCSTR} for details):
 
 \begin{equation}
@@ -298,7 +301,14 @@ The solution of running the DOPRI54 implementation on this problem can be seen i
 
 
 \subsection{Comparison with ode45}
-For comparing the DOPRI54 implemented above to MATLABS ode45 we will return to the Van der Pol.
+For comparing the DOPRI54 implemented above to MATLABS \textit{ode45} (which is also an implementation of DOPRI54) we will return to the Van der Pol problem. By running the two implementations on a crude and a fine tolerance of $tol = 10^{-2}$ and $tol = 10^{-12}$ and zooming in the result is seen in Figure \ref{fig:6_6}. Clearly the two implementation are not identical. The implementation in Listing \ref{DOPRI54} is a lot less accurate. However it also uses much fewer steps so there might be an inherent tolerance implementation that is different.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/6_6finito.eps}
+    \caption{Comparing DOPRI54 with \textit{ode45} on the Van der Pol.}
+    \label{fig:6_6}
+\end{figure}
+
 
 
 
