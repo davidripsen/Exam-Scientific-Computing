@@ -366,6 +366,45 @@ exportgraphics(gcf, append(plotpath, '6_5_both.pdf'))
 
 
 
+%% 6.6 Compare with ode45
+solver = ERKSolverErrorEstimationParameters('DOPRI54');
+mus = [3 20];
+abstols = [1e-02 1e-09];
+reltols = abstols;
+figure('Position', [100, 100, 1300, 800]);
+for i = 1:length(mus)
+    for j = 1:length(abstols)
+        mu = mus(i);
+        tspan = [0, 32];
+        x0 = [1.0; 1.0];
+        h0 = 1/100; % Initial step size
+        abstol = abstols(j);
+        reltol = reltols(j);
+        %[T, X] = ExplicitEulerAdaptiveStep(...
+        %    @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
+        
+        [T,X,E] = AdaptiveERKSolverErrorEstimation(@VanderPolFun,tspan,x0,h0, ...
+                solver,abstol,reltol,mu);
+
+        subplot(1,2,i)
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive DOPRI54, tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
+        options = odeset('RelTol',reltol,'AbsTol',abstol);
+        [T45,X45]=ode45(@VanderPolFun,tspan,x0,options,mu);
+        %[T15,X15]=ode15s(@VanderPolFun,tspan,x0,options,mu);
+        plot(X45(:,1), X45(:,2), DisplayName=sprintf('ode45, tol = %.5g (steps = %.i)',abstol, length(T45)-1))
+        %shg % Show graph window
+    end
+        %%% 4b compare with ode45 and ode15
+    
+    %plot(X15(:,1), X15(:,2), DisplayName=sprintf('ode15s, tol = %.5g',abstol))
+    title(sprintf("Van Der Pol Solution (µ = %i)", mu))
+    xlabel('X1')
+    ylabel('X2')
+    legend('location', 'southoutside'); hold off
+end
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
+exportgraphics(gcf, append(plotpath, '6_6.pdf'))
+
 
 
 

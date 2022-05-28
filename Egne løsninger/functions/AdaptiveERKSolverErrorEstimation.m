@@ -10,9 +10,9 @@ function [Tout,Xout,Eout] = ...
 % [Tout,Xout,Eout]=ERKSolverErrorEstimation(fun,tspan,x0,h,solver,varargin)
 
 % Adaptive stepsize pars
+%abstol=1e-05;
+%reltol=1e-05;
 epstol=0.8;
-facmin=0.1;
-facmax=5;
 
 % Solver Parameters
 s  = solver.stages;     % Number of stages in ERK method
@@ -66,8 +66,7 @@ while t < tf
 
         % Controlling step size h relative to error
         r = max(abs(e) ./ max(abstol, abs(x + F*h*b) .*reltol));
-        %h = (epstol/r)^(1/kpow) * h;
-        h = max(facmin,min((epstol/r)^(1/kpow),facmax))*h;
+        h = (epstol/r)^(1/kpow) * h;
 
         AcceptStep = (r<=1.0);
         if AcceptStep
