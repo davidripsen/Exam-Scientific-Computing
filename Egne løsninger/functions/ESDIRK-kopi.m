@@ -1,9 +1,32 @@
-function [Tout,Xout,Gout,info,stats] = ESDIRK(fun,jac,t0,tf,x0,h0,...
-    absTol,relTol,Method,varargin)
+function [Tout,Xout,Gout,info,stats] = ESDIRK(fun,jac,t0,tf,x0,h0,absTol,relTol,Method,varargin)
+
 %% ESDIRK23 Parameters 
 %=========================================================================
 % Runge-Kutta method parameters
 switch Method
+    case 'ESDIRK12'
+        gamma = 1;
+        AT = [0 0;0 gamma];
+        c  = [0; 1];
+        b  = AT(:,2);
+        bhat = [1/2; 1/2];
+        d  = b-bhat;
+        p  = 1;
+        phat = 2;
+        s = 2;
+    case 'ESDIRK23'
+        gamma = 1-1/sqrt(2);
+        a31 = (1-gamma)/2;
+        AT = [0 gamma a31;0 gamma a31;0 0 gamma];
+        c  = [0; 2*gamma; 1];
+        b  = AT(:,3);
+        bhat = [    (6*gamma-1)/(12*gamma); ...
+            1/(12*gamma*(1-2*gamma)); ...
+            (1-3*gamma)/(3*(1-2*gamma))    ];
+        d  = b-bhat;
+        p  = 2;
+        phat = 3;
+        s = 3;
     case 'myESDIRK23'
         gamma = 1-1/sqrt(2);
         a21 = 1 - sqrt(2)/2;
@@ -19,7 +42,26 @@ switch Method
         p  = 2;
         phat = 3;
         s = 3;
+    case 'ESDIRK34'
+        gamma = 0.43586652150845899942;
+        a31 = 0.14073777472470619619;
+        a32 = -0.1083655513813208000;
+        AT  = [0 gamma a31   0.10239940061991099768;
+            0 gamma a32   -0.3768784522555561061;
+            0 0     gamma 0.83861253012718610911;
+            0 0     0     gamma                 ];
+        c  = [0; 0.87173304301691799883; 0.46823874485184439565; 1];
+        b  = AT(:,4);
+        bhat = [0.15702489786032493710;
+            0.11733044137043884870;
+            0.61667803039212146434;
+            0.10896663037711474985];
+        d = b-bhat;
+        p = 3;
+        phat = 4;
+        s = 4;
 end
+
 
 % error and convergence controller
 epsilon = 0.8;
@@ -34,14 +76,14 @@ alphaLU  = -0.2;
 hrmin = 0.01;
 hrmax = 10;
 %========================================================================
-tspan = [t0 tf]; 
+tspan = [t0 tf]; % carsten
 info = struct(...
-            'Method',    Method,  ... 
-            'nStage',    s,       ... 
-            'absTol',    'dummy',  ... 
-            'relTol',    'dummy',  ... 
-            'iterMax',   itermax, ... 
-            'tspan',     tspan,   ...
+            'Method',    Method,  ... % carsten
+            'nStage',    s,       ... % carsten
+            'absTol',    'dummy',  ... % carsten
+            'relTol',    'dummy',  ... % carsten
+            'iterMax',   itermax, ... % carsten
+            'tspan',     tspan,   ... % carsten
             'nFun',      0, ...
             'nJac',      0, ...
             'nLU',       0, ...

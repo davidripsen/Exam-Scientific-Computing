@@ -60,7 +60,7 @@ fs = 14;
     ylabel('imag','fontsize',fs);
     title('|R(z)| - ESDIRK23','fontsize',fs)
 set(findall(0, '-property', 'fontsize'), 'fontsize', 17)    
-exportgraphics(gcf, append(plotpath, '7_2a.pdf'))
+%exportgraphics(gcf, append(plotpath, '7_2a.pdf'))
 
 %% 3. Implementation of adaptive ESDIRK23
 
@@ -86,22 +86,16 @@ for i = 1:length(mus)
         [T, X, Gout,info,stats] = ESDIRK(@VanderPolFun,@VanderPolJac,tspan(1),tspan(end),x0,h0,abstol,reltol,Method,mu);
         
         subplot(1,2,i)
-        plot(X(:,1), X(:,2), DisplayName=sprintf('ESDIRK23, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T), info.nFun)) ; hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Adaptive ESDIRK23, tol = %.5g (steps = %.i)',abstol, length(T))) ; hold on
         %shg % Show graph window
     end
         %%% 4b compare with ode45 and ode15
     
     options = odeset('RelTol',reltol,'AbsTol',abstol);
-    sol45=ode45(@VanderPolFun,tspan,x0,options,mu);
-    T45 = sol45.x;
-    X45 = sol45.y;
-    fevals45 = sol45.stats.nfevals;
-    sol15=ode15s(@VanderPolFun,tspan,x0,options,mu);
-    T15 = sol15.x;
-    X15 = sol15.y;
-    fevals15 = sol15.stats.nfevals;
-    plot(X45(:,1), X45(:,2), DisplayName=sprintf('ode45, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T45), fevals45))
-    plot(X15(:,1), X15(:,2), DisplayName=sprintf('ode15s, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T15), fevals15))
+    [T45,X45]=ode45(@VanderPolFun,tspan,x0,options,mu);
+    [T15,X15]=ode15s(@VanderPolFun,tspan,x0,options,mu);
+    plot(X45(:,1), X45(:,2), DisplayName=sprintf('ode45, tol = %.5g (steps = %.i)',abstol, length(T45)))
+    plot(X15(:,1), X15(:,2), DisplayName=sprintf('ode15s, tol = %.5g (steps = %.i)',abstol, length(T15)))
     title(sprintf("Van Der Pol Solution (µ = %i)", mu))
     xlabel('X1')
     ylabel('X2')

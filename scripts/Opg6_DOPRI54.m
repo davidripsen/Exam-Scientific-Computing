@@ -269,7 +269,6 @@ plot(T3d/60,X3d(:,3)-273.15, 'linewidth',2)
 title("CSTR 3D")
 set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 
-
 %xlabel('Time [min]')
 ylabel('T [C]')
 xlim([TimeAx(1),TimeAx(end)])
