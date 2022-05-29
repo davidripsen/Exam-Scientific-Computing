@@ -104,6 +104,7 @@ polyfit(log(hs), log(abs(E(:,3))), 1)
 hold off;
 legend('Location','northwest')
 shg % Show graph window
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '1_5.pdf'))
 
 %plot(hspan, E)
@@ -158,6 +159,7 @@ fs = 14;
     xlabel('real','fontsize',fs);
     ylabel('imag','fontsize',fs);
     title('|R(z)| - Classical Runge-Kutta','fontsize',fs)
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '1_6a.pdf'))
 
 % Explicit Euler
@@ -171,6 +173,7 @@ fs = 14;
     xlabel('real','fontsize',fs);
     ylabel('imag','fontsize',fs);
     title('|R(z)| - Explicit Euler','fontsize',fs)
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '1_6b.pdf'))
 
 % Implicit Euler
@@ -184,6 +187,7 @@ fs = 14;
     xlabel('real','fontsize',fs);
     ylabel('imag','fontsize',fs);
     title('|R(z)| - Implicit Euler','fontsize',fs)
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '1_6c.pdf'))
 
 % Comments:
