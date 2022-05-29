@@ -396,15 +396,47 @@ Gout = Gout(1:nAccept,:);
 \subsection{Van der Pol}
 The solution from the above implementation on the Van der Pol problem can be seen in Figure \ref{fig:7_4}. ESDIRK23 solves the ODE with relative ease as seen by the few steps taken.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{plots/7_4b.pdf}
     \caption{Solution of ESDIRK23 on the Van der Pol problem.}
     \label{fig:7_4}
 \end{figure}
 
+
+
+
+
+
 \subsection{Comparison with other solvers}
-A large, conclusive comparison is made in Section 8. <-- hertil.
+A grand, final comparison of all the methods on the Van der Pol problem is seen in Figure \ref{fig:7_5pp}, \ref{fig:7_5x1} and \ref{fig:7_5x2}. The solutions are all computed using an adaptive step size with $abstol = reltol = 10^{-4}$. For solvers that do not have an embedded error estimation, step doubling is used.
+
+\\\
+
+Comparing ESDIRK23 to the other solvers it performs quite well. Comparing it mainly to DOPRI54 and \textit{ode45} it seen that ESDIRK23 requires more steps on the non-stiff problem for ensuring the speciefied tolerances. However on the stiff problem, ESDIRK23 used fewer steps than both DOPRI54, \textit{ode45} and even \textit{ode15s}. Clearly, due to it's inherent implicit properties, it is well suited for stiff problems.
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/7_5b.pdf}
+    \caption{Phase portraits of the Van der Pol for different solvers.}
+    \label{fig:7_5pp}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/7_5_X1.pdf}
+    \caption{Solution of X1 from the Van der Pol for different solvers.}
+    \label{fig:7_5x1}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{plots/7_5_X2.pdf}
+    \caption{Solution of X1 from the Van der Pol for different solvers.}
+    \label{fig:7_5x2}
+\end{figure}
+
 
 
 
