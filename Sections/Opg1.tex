@@ -13,7 +13,7 @@ x(t) = \exp(\lambda t)
 $$
 Then
 $$
-x'(t) = \lambda \exp(\lambda t) = \lambda x(t)t  \quad \qed
+\frac{d}{dt}x(t) = \lambda \exp(\lambda t) = \lambda x(t)  \quad \qed
 $$
 I.e. the analytical solution is $x(t) = \exp(\lambda t)$.
 
@@ -24,7 +24,7 @@ In order to calculate the local and global truncation error, the exact analytica
 $$
 e_{k}=x_{k}-x\left(t_{k}\right)
 $$
-where $x_{k}$ is the numerical (descretized) solution and $x\left(t_{k}\right)$ is the exact (continuous) solution. The global error is thus the accumulated error over time. Therefore, it is commonly calculated in the last step.
+where $x_{k}$ is the numerical (descretized) solution and $x\left(t_{k}\right)$ is the exact (continuous) solution. The global error is thus the accumulated error over time. Therefore it is commonly calculated in the last step.
 \\
 
 \textbf{Local error}
@@ -133,7 +133,7 @@ So for a method to be\textit{ A-stable}, it is has to fulfil \cite{JrgensenRunge
     \forall z \operatorname{Re}(z)<0  :   |R(z)|<1
 \end{equation}
 
-In other words, the method is A-stable if there for all values of z where the real part is below 0 (\iff $\lambda < 0$ since the step size $h > 0$) the \textit{transfer function} is (numerically) below 1.
+In other words, the method is A-stable if for all values of z where the real part is below 0 (\iff $\lambda < 0$ since the step size $h > 0$) the \textit{transfer function} is (numerically) below 1.
 \\
 
 For a method to be \textit{L-stable} it additionally has to fulfil:
@@ -144,18 +144,17 @@ For a method to be \textit{L-stable} it additionally has to fulfil:
 I.e. the \textit{transfer function} goes towards 0 when the step size times $\lambda$ goes towards -$\infty$.
 
 \subsubsection*{Deriving stability regions}
+Stability of methods is often evaluated on the test equation where the analytical solution is known. So $f(t_k, x_k) = \lambda x_t$.\\
 
-Explicit Euler:
+Explicit Euler: $x_{k+1} = x_k + f(t_k, x_k)h = x_k + (\lambda x_t)h = (1 + \lambda h) x_k  \quad \implies  \quad R(z) = 1 + z$ \\
 
-Implicit Euler
+Implicit Euler:  $x_{k+1} = x_k + f(t_{k+1}, x_{k+1})h = x_k + (\lambda x_{t+1})h = \frac{1}{1-\lambda h} x_{k}  \quad \implies \quad R(z) = \frac{1}{1-z}$ \\
 
-Classic Runge-Kutta:
-
-[INSERT NOTES MANGLER] - i sort hæfte?-
-
+Classic Runge-Kutta \cite{JrgensenRunge-KuttaControl}: $$R(z)=1+z b^{\prime}(I-z A)^{-1} e$$\\
+where $b = \lbrack \frac{1}{6}, \frac{1}{3}, \frac{1}{3}, \frac{1}{6} \rbrack$, $e = [1, 1, 1, 1]$ and A = $\begin{array}{lll}\frac{1}{2} & 0 & 0 \\ 0 & \frac{1}{2} & 0 \\ 0 & 0 & 1\end{array}$
 
 \subsubsection*{Illustrating the stability regions}
-The stability regions of the three methods is illustrated in Figure \ref{fig:figure3}. Referring to the definitions above it is seen that none of the methods are A-stable - and thus neither L-stable [TRUE?].
+The stability regions of the three methods are illustrated in Figure \ref{fig:figure3}. The blueish area is preferred corresponding to a stable region. Referring to the definitions above it is seen that none of the methods are A-stable and thus neither L-stable.
 
 \begin{figure}[htp]
 \centering
