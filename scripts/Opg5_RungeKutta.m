@@ -70,7 +70,7 @@ for i = 1:length(mus)
         abstol = abstols(j);
         reltol = reltols(j);
 
-        [T, X, H] = ClassicalRungeKuttaAdaptiveStep(...
+        [T, X, H, fevals] = ClassicalRungeKuttaAdaptiveStep(...
     @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
 
 
@@ -113,7 +113,7 @@ for i = 1:length(mus)
         abstol = abstols(j);
         reltol = reltols(j);
 
-        [T, X, H] = ClassicalRungeKuttaAdaptiveStep(...
+        [T, X, H, fevals] = ClassicalRungeKuttaAdaptiveStep(...
     @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
 
 
@@ -148,7 +148,7 @@ for i = 1:length(mus)
         abstol = abstols(j);
         reltol = reltols(j);
 
-        [T, X, H] = ClassicalRungeKuttaAdaptiveStep(...
+        [T, X, H, fevals] = ClassicalRungeKuttaAdaptiveStep(...
     @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
 
 

@@ -1,7 +1,8 @@
-function [T,X,H] = ClassicalRungeKuttaAdaptiveStep(...
+function [T,X,H, fevals] = ClassicalRungeKuttaAdaptiveStep(...
     fun,tspan,x0,h0,abstol,reltol,varargin)
 disp('Lets go')
 epstol = 0.8;
+fevals = 0;
 kpow = 0.2; % 1/(order+1)
 facmin = 0.1;
 facmax = 5;
@@ -35,7 +36,7 @@ while t < tf
         % Take step of size h/2
         hm=0.5*h;
         [tm, xm] = ClassicalRungeKuttaStep(...
-            fun,t,x,f,h,varargin{:});
+            fun,t,x,f,hm,varargin{:});
         
         fm = feval(fun,tm,xm,varargin{:});
         [t1hat, x1hat] = ClassicalRungeKuttaStep(...
@@ -56,5 +57,7 @@ while t < tf
         end
         % Asymptotic step size controller
         h = max(facmin,min((epstol/r)^kpow,facmax))*h;
+        %h = max(facmin, min(sqrt(epstol/r), facmax))*h;
+        fevals = fevals + 10; % 10 fevals per full iteration
     end
 end

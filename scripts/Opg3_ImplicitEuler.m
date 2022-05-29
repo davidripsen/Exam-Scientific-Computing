@@ -27,8 +27,8 @@ for i = 1:length(mus)
         abstol = abstols(j);
         reltol = reltols(j);
 
-        [T, X, iter] = ImplicitEulerAdaptiveInexactNewt(...
-         @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
+        [T,X,iter] = ImplicitEulerAdaptiveStep(...
+            @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
 
         % Choose N = length(T), i.e. same number of steps for the fixed
         % step size Euler.
