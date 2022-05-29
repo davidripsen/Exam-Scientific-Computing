@@ -105,7 +105,7 @@ One can show as done in \cite{JrgensenRunge-KuttaControl} that the method is L-s
 \end{figure}
 
 \subsection{MATLAB implementation}
-The ESDIRK23 method with the Butcher's Tableau shown in Table 4 is implemented below. The implementation is largely based on the provided function.
+The ESDIRK23 method with the Butcher's Tableau shown in Table 4 is implemented below. The implementation is largely based on the provided function. It is implemented in a similar fashian to that of MATLABs \textit{ode45} and \textit{ode15s} for easy switching. Additionally it extracts a lot of key performance indicators.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
 \begin{lstlisting}[frame=single, language=Matlab,caption=ESDIRK23, label=ESDIRK23]
@@ -404,6 +404,7 @@ The solution from the above implementation on the Van der Pol problem can be see
 \end{figure}
 
 \subsection{Comparison with other solvers}
+A large, conclusive comparison is made in Section 8. <-- hertil.
 
 
 
