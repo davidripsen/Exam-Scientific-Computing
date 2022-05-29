@@ -134,17 +134,17 @@ for i = 1:length(mus)
         % Explicit Euler
         [T, X] = ExplicitEulerAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Explicit Euler Adaptive, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, length(T)-1)) ; hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Explicit Euler,  tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, length(T)-1)) ; hold on
 
         % Implicit Euler
         [T,X,iter] = ImplicitEulerAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Implicit Euler Adaptive, tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Implicit Euler,  tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
         
         % Classical Runge-Kutta
         [T, X, H,fevals] = ClassicalRungeKuttaAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(X(:,1), X(:,2), DisplayName=sprintf('Classical RK Adaptive, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, fevals)) ; hold on
+        plot(X(:,1), X(:,2), DisplayName=sprintf('Classical RK,  tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, fevals)) ; hold on
 
         % DOPRI54
         solver = ERKSolverErrorEstimationParameters('DOPRI54');
@@ -199,17 +199,17 @@ for i = 1:length(mus)
         % Explicit Euler
         [T, X] = ExplicitEulerAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(T, X(:,1), DisplayName=sprintf('Explicit Euler Adaptive, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, length(T)-1)) ; hold on
+        plot(T, X(:,1), DisplayName=sprintf('Explicit Euler,  tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, length(T)-1)) ; hold on
 
         % Implicit Euler
         [T,X,iter] = ImplicitEulerAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(T, X(:,1), DisplayName=sprintf('Implicit Euler Adaptive, tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
+        plot(T, X(:,1), DisplayName=sprintf('Implicit Euler,  tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
         
         % Classical Runge-Kutta
         [T, X, H, fevals] = ClassicalRungeKuttaAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(T, X(:,1), DisplayName=sprintf('Classical RK Adaptive, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, fevals)) ; hold on
+        plot(T, X(:,1), DisplayName=sprintf('Classical RK,  tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, fevals)) ; hold on
 
 
         % DOPRI54
@@ -271,17 +271,17 @@ for i = 1:length(mus)
         % Explicit Euler
         [T, X] = ExplicitEulerAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(T, X(:,2), DisplayName=sprintf('Explicit Euler Adaptive, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, length(T)-1)) ; hold on
+        plot(T, X(:,2), DisplayName=sprintf('Explicit Euler,  tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, length(T)-1)) ; hold on
 
         % Implicit Euler
         [T,X,iter] = ImplicitEulerAdaptiveStep(...
             @fJacVanDerPol,tspan,x0,h0,abstol,reltol,mu);
-        plot(T, X(:,2), DisplayName=sprintf('Implicit Euler Adaptive, tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
+        plot(T, X(:,2), DisplayName=sprintf('Implicit Euler,  tol = %.5g (steps = %.i)',abstol, length(T)-1)) ; hold on
         
         % Classical Runge-Kutta
         [T, X, H, fevals] = ClassicalRungeKuttaAdaptiveStep(...
             @VanderPolFun,tspan,x0,h0,abstol,reltol,mu);
-        plot(T, X(:,2), DisplayName=sprintf('Classical RK Adaptive, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, fevals)) ; hold on
+        plot(T, X(:,2), DisplayName=sprintf('Classical RK,  tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, fevals)) ; hold on
 
         % DOPRI54
         solver = ERKSolverErrorEstimationParameters('DOPRI54');
