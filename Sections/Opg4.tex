@@ -156,7 +156,11 @@ And fixed step size of $\Delta t = h = 0.001$ is used.
 \\\
 
 \textbf{Version (1) - state independent diffusion}\\
-In this section, equation (\ref{sde1}) is solved with the two mentioned solvers with $\mu \in \{3, 20\}$ and $\sigma \in \{0.1, 2.0\}$ as seen in Figure \ref{fig:4b} and \ref{fig:4a}. For comparison, the exact same realizations from the Wiener Process is used for the two solvers. There is a high impact from $\sigma$ but for comparing Explicit-Explicit vs Implicit-Explicit there is only a slight visible difference between the two when $\mu = 20$ in Figure \ref{fig:4a}.
+In this section, equation (\ref{sde1}) is solved with the two mentioned solvers with \\
+\begin{center}
+    $\mu \in \{3, 20\}$ and $\sigma \in \{0.1, 2.0\}$
+\end{center}
+as seen in Figure \ref{fig:4b} and \ref{fig:4a}. For comparison, the exact same realizations from the Wiener Process is used for the two solvers. There is a high impact from $\sigma$ but for comparing Explicit-Explicit vs Implicit-Explicit there is only a slight visible difference between the two when $\mu = 20$ in Figure \ref{fig:4a}.
 
 
 \begin{figure}[H]
@@ -177,7 +181,11 @@ In this section, equation (\ref{sde1}) is solved with the two mentioned solvers 
 \\\
 
 \textbf{Version (2) - state independent diffusion}\\
-In this section, equation (\ref{sde2}) is solved with the two mentioned solvers with $\mu \in \{3, 20\}$ and $\sigma \in \{0.1, 2.0\}$ as seen in Figure \ref{fig:4d} and \ref{fig:4c}. Again, the exact same realizations from the Wiener Process is used for the two solvers. There is a very high impact from $\sigma$, which for higher values makes the solution completely unstable. Interestingly, it is seen in Figure \ref{fig:4c} that the pertubations mainly effect the stiff regions of the ODE. For comparing Explicit-Explicit vs Implicit-Explicit one can only glimpse a small difference between the upper two plots in Figure \ref{fig:4c}. For this small of a step size (h = 0.001) the two approximations are almost identical.
+In this section, equation (\ref{sde2}) is solved with the two mentioned solvers with\\
+\begin{center}
+$\mu \in \{3, 20\}$ and $\sigma \in \{0.1, 2.0\}$     
+\end{center}
+as seen in Figure \ref{fig:4d} and \ref{fig:4c}. Again, the exact same realizations from the Wiener Process is used for the two solvers. There is a very high impact from $\sigma$, which for higher values makes the solution completely unstable. Interestingly, it is seen in Figure \ref{fig:4c} that the pertubations mainly effect the stiff regions of the ODE. For comparing Explicit-Explicit vs Implicit-Explicit one can only glimpse a small difference between the upper two plots in Figure \ref{fig:4c}. For this small of a step size (h = 0.001) the two approximations are almost identical.
 
 \begin{figure}[htb]
     \centering

@@ -2,8 +2,8 @@
 Now another particular case of a Runge-Kutta method is the Explicit Singly Diagonal Implicit Runge-Kutta of 2nd order and 3rd order error estimation (ESDIRK23). The problem with Explicit Runge-Kutta methods is their relative small stability regions. None of them are A-stable and therefore neither L-stable. By spending the degrees of freedom cleverly as we will see, A-stability and L-stability can be achieved.
 
 \\\
+The ESDIRK23 method is characterized by the following Butcher's Tableau:
 
-ESDIRK is family of methods sharing the same Butcher's Tableau, here illustrated for ESDIRK23 methods:
 
 \begin{table}[H]
     \centering
@@ -15,11 +15,11 @@ $c_{2}$ & $a_{21}$ & $\gamma$ & \\
 $\hat{x}_{n+1}$ & $\hat{b}_{1}$ & $\hat{b}_{2}$ & $\hat{b}_{3}$ \\
 \hline$e_{n+1}$ & $d_{1}$ & $d_{2}$ & $d_{3}$
 \end{tabular}
-    \caption{Butcher's Tableau for the general ESDIRK23.}
+    \caption{Butcher's Tableau for the ESDIRK23.}
     \label{tab:ESDIRK23general}
 \end{table}
 
-From $a_{1,1} = 0$ it follows that the method starts with an explicit step (saved from the previous iteration), i.e. $T_{1}=t_{n}, \quad X_{1}=x_{n}, \quad f_1 = f(t_n, x_n)$. Now the following two steps are implicit since the calculation of $X_2$ and $X_3$ \textit{depends} on $X_2$ and $X_3$ respectively. Note how they mutually share the same coefficient $\gamma$ making the method \textit{Singly Diagonal}. So how is $X_2$ and $X_3$ calculated implicitly? Using the Runge-Kutta equations \ref{eq:RKgeneral1} and \ref{eq:RKgeneral2} and using Newton's Method as explained in Section 3, we must solve
+From $a_{1,1} = 0$ it follows that the method starts with an explicit step (saved from the previous iteration), i.e. $T_{1}=t_{n}, \quad X_{1}=x_{n}, \quad f_1 = f(t_n, x_n)$. Now the following two steps are implicit since the calculation of $X_2$ and $X_3$ \textit{depends} on $X_2$ and $X_3$ respectively. Note how they mutually share the same coefficient $\gamma$ making the method \textit{Singly Diagonal}. So how are $X_2$ and $X_3$ calculated implicitly? Using the Runge-Kutta equations \ref{eq:RKgeneral1} and \ref{eq:RKgeneral2} and using Newton's Method as explained in Section 3, we must solve
 
 \begin{equation}
 R\left(X_{2}\right)=X_{2}-h \gamma f\left(T_{2}, X_{2}\right)-x_{n}+h a_{21} f_{1}=0
@@ -76,7 +76,7 @@ And for the embedded method of order p=3:
     & \hat{b}^T A C e = \frac{1}{6}
 \end{align*}
 
-Solving these equations there is still 1 degrees of freedom left. So choosing $\gamma=1-\frac{1}{\sqrt{2}}$ (see the attached Maple-sheet for details) we arrive at a well-defined ESDIRK23 which (by subtitution of coefficients) has the following Butcher's Tableau:
+Solving these equations there is still 1 degrees of freedom left. So choosing $\gamma=1-\frac{1}{\sqrt{2}}$ (see the uploaded Maple-sheet for details) we arrive at a well-defined ESDIRK23 which (by subtitution of coefficients) has the following Butcher's Tableau:
 
 \begin{table}[H]
 \centering
@@ -394,7 +394,7 @@ Gout = Gout(1:nAccept,:);
 \end{adjustwidth*}
 
 \subsection{Van der Pol}
-The solution from the above implementation on the Van der Pol problem can be seen in Figure \ref{fig:7_4}. ESDIRK23 solves the ODE with relative ease as seen by the few steps taken.
+The solution from the above implementation on the Van der Pol problem can be seen in Figure \ref{fig:7_4}. ESDIRK23 solves the ODE with relative ease as seen by the few steps taken. As one would expect, it is particularly advantageous to use the method one the stiff problem.
 
 \begin{figure}[H]
     \centering
@@ -409,34 +409,7 @@ The solution from the above implementation on the Van der Pol problem can be see
 
 
 \subsection{Comparison with other solvers}
-A grand, final comparison of all the methods on the Van der Pol problem is seen in Figure \ref{fig:7_5pp}, \ref{fig:7_5x1} and \ref{fig:7_5x2}. The solutions are all computed using an adaptive step size with $abstol = reltol = 10^{-4}$. For solvers that do not have an embedded error estimation, step doubling is used.
-
-\\\
-
-Comparing ESDIRK23 to the other solvers it performs quite well. Comparing it mainly to DOPRI54 and \textit{ode45} it seen that ESDIRK23 requires more steps on the non-stiff problem for ensuring the speciefied tolerances. However on the stiff problem, ESDIRK23 used fewer steps than both DOPRI54, \textit{ode45} and even \textit{ode15s}. Clearly, due to it's inherent implicit properties, it is well suited for stiff problems.
-
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{plots/7_5b.pdf}
-    \caption{Phase portraits of the Van der Pol for different solvers.}
-    \label{fig:7_5pp}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{plots/7_5_X1.pdf}
-    \caption{Solution of X1 from the Van der Pol for different solvers.}
-    \label{fig:7_5x1}
-\end{figure}
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{plots/7_5_X2.pdf}
-    \caption{Solution of X1 from the Van der Pol for different solvers.}
-    \label{fig:7_5x2}
-\end{figure}
-
+A grand, final comparison of all the methods on the Van der Pol problem is shown in Section 8. Apparently, \textit{ode45} and \textit{ode15s} still outperforms the ESDIRK23 on the tol=1e-6 when it comes to number of steps and function evaluations.
 
 
 

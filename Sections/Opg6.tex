@@ -157,7 +157,7 @@ $$
 x(t) = \exp(\lambda t)
 $$
 
-And choosing $\lambda=-1$ and $x_{0}=1$ the approximated solutions as obtained by DOPRI54 is seen in Figure \ref{fig:6_3}. For a high tolerance the solution is quite off and with a decreasing tolerance the solution approaches that of the exact, analytical solution. Note how the DOPRI54 is not only far off the right solution, its embedded error estimation is also far off.\\
+And choosing $\lambda=-1$ and $x_{0}=1$ the approximated solutions as obtained by DOPRI54 is seen in Figure \ref{fig:6_3}. For a high tolerance the solution is extremely far off and with a decreasing tolerance the solution approaches that of the exact, analytical solution. Note how the DOPRI54 is not only far off the right solution, its embedded error estimation is also far off. However this can not be due to the tolerance. I acknowledge that it should not be possible to be so far off - but I have not been able to find the error in the code.\\
 
 \begin{figure}[h]
     \centering
@@ -189,7 +189,7 @@ Now in terms of \textit{stability}, the transfer function for any Runge-Kutta me
 R(z)=1+z b^{\prime}(I-z A)^{-1} e
 \end{equation}
 
-Where $z = \lambda \cdot h$. By insertion of the relevant coefficients for the DOPRI54 as seen in Table \ref{tab:DOPRI54}, the resulting stability can be seen in Figure \ref{fig:6_3c}.
+Where $z = \lambda \cdot h$. By insertion of the relevant coefficients for the DOPRI54 as seen in Table 1, the resulting stability can be seen in Figure \ref{fig:6_3c}.
 
 
 
@@ -209,7 +209,7 @@ The non-yellow area is the stability regions of which $|R(z)| < 1$. Since $|R(z)
 
 
 \subsection{Van der Pol}
-The results on applying the DOPRI54 implementation on the Van der Pol problem is seen in Figure \ref{fig:6_4}. Clearly the approximate solution becomes more and more accurate for lower tolerances. Additionally it is seen that it requires many more steps on the stiff problem. Interstingly, it requires fewer steps to ensure a $tol = 1e-04$ than $tol = 1e-02$ on the stiff problem. Since MATLAB'S \textit{ode45} is an implementation of the DOPRI54 a more thorough comparison between the two is presented in Section 6.6.
+The results on applying the DOPRI54 implementation on the Van der Pol problem is seen in Figure \ref{fig:6_4}. Clearly the approximate solution becomes more and more accurate for lower tolerances. Additionally it is seen that it requires many more steps on the stiff problem. Interstingly, it requires fewer steps to ensure a $tol = 1e-04$ than $tol = 1e-02$ on the stiff problem. Is previously stated, there is likely a bug in the implementation - the tol = 0.01 doesn't seem to be accurately fulfilled - but I have simply not been able to find the bug. Since MATLAB'S \textit{ode45} is an implementation of the DOPRI54 a more thorough comparison between the two is presented in Section 6.6.
 
 \begin{figure}[h]
     \centering
@@ -265,8 +265,7 @@ Inlet temperature        & T_{in}     & 273.65    & K               \\  \hline
 \end{tabular}
 \end{table}
 
-Now running the implemented DOPRI54 on this problem the solution can be seen in Figure \ref{fig:6_5_3d}.
-
+Now running the implemented DOPRI54 on this problem the solution can be seen in Figure \ref{fig:6_5_3d}. An absolute and relative tolerance of $10^{-12}$ has been used.
 
 \begin{figure}[h]
     \centering
@@ -284,7 +283,7 @@ Now the paper [ibid.] also suggests a 1-dimensional simplification of the 3-dime
 \dot{T}=\frac{F}{V}\left(T_{i n}-T\right)+R_{T}\left(C_{A}(T), C_{B}(T), T\right)
 \end{equation}
 
-The solution of running the DOPRI54 implementation on this problem can be seen in Figure \ref{fig:6_5_1d}. To inquire about the accuracy of the 1-dimensional approximation, the two models are compared in Figure \ref{fig:6_5_both}. Clearly it is on
+The solution of running the DOPRI54 implementation on this problem can be seen in Figure \ref{fig:6_5_1d}. To inquire about the accuracy of the 1-dimensional approximation, the two models are compared in Figure \ref{fig:6_5_both}. Clearly it is only in the brief beginning that there is a difference between the two.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{plots/6_5_1D.pdf}
