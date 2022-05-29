@@ -61,6 +61,7 @@ polyfit(log(hs), log(abs(E(:,3))), 1)
 hold off;
 legend('Location','northwest')
 shg % Show current figure
+set(findall(0, '-property', 'fontsize'), 'fontsize', 17)
 exportgraphics(gcf, append(plotpath, '1_4.pdf'))
 
 %% 5) Global Error

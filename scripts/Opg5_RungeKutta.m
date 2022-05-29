@@ -57,7 +57,7 @@ exportgraphics(gcf, append(plotpath, '5_4fix_a.pdf'))
 
 %% Actually run phase portrait
 mus = [3 20];
-abstols = [1e-02 1e-04];
+abstols = [1e-02 1e-04 1e-06];
 reltols = abstols;
 figure('Position', [100, 100, 1300, 800]);
 for i = 1:length(mus)
