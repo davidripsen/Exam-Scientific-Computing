@@ -39,8 +39,8 @@ plot(T, X, DisplayName=sprintf('DOPRI54, tol = %.5g (steps = %.i)',abstol, lengt
 
 % ESDIRK23
 Method = "myESDIRK23";
-%[T, X, Gout,info,stats] = ESDIRK(@testeq,@testeqJac,tspan(1),tspan(end),x0,h0,abstol,reltol,Method,lambda);
-%plot(T, X, DisplayName=sprintf('ESDIRK23, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, info.nFun)) ; hold on
+[T, X, Gout,info,stats] = ESDIRK(@testeq,@testeqJac,tspan(1),tspan(end),x0,h0,abstol,reltol,Method,lambda);
+plot(T, X, DisplayName=sprintf('ESDIRK23, tol = %.5g (steps = %.i, fevals = %.i)',abstol, length(T)-1, info.nFun)) ; hold on
 %shg % Show graph window
 
 %%% 4b compare with ode45 and ode15
