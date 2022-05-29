@@ -26,7 +26,7 @@ Naturally a question arises on choosing an appropriate step size $\Delta t_k$. T
 
 And with adaptive step size where $\Delta t_k$ can change in each iteration k. The ladder approach is discussed in further detail in Section 2.3.
 
-\subsection{MATLAB implementation with fixed step size}
+\subsection{MATLAB implementation fixed step size}
 See the following MATLAB implementation of the Explicit Euler with fixed step size (as described in Section 2.1), well-suited for non-stiff problems.
 
 \begin{adjustwidth*}{0cm}{-0.4cm}
@@ -56,7 +56,7 @@ end
 \end{lstlisting}
 \end{adjustwidth*}
 
-\subsection{MATLAB implementation with adaptive step size}
+\subsection{MATLAB implementation adaptive step size}
 \label{sec:ExplicitEulerAdaptive} \label{sec:stepdoubling}
 See the following MATLAB implementation of the Explicit Euler with adaptive step size, well-suited for stiff and non-stiff problems. The embedded error estimation is based on \textit{stop doubling}, i.e. estimating the error of a full step from the more accurate two half-steps. Going in greater detail with the adaptive step size:
 
